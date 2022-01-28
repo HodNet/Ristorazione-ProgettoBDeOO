@@ -432,7 +432,7 @@
 											"top": 590,
 											"width": 191,
 											"height": 13,
-											"text": "-cod tavolo",
+											"text": "-codT",
 											"horizontalAlignment": 0
 										},
 										{
@@ -644,7 +644,7 @@
 											"top": 342,
 											"width": 238,
 											"height": 13,
-											"text": "-codice sala",
+											"text": "-codS",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1999,17 +1999,18 @@
 									"model": {
 										"$ref": "AAAAAAF9r9TBQZ3ZjWo="
 									},
-									"visible": false,
 									"font": "Arial;13;0",
-									"left": 660,
+									"left": 615,
 									"top": 392,
+									"width": 53.828125,
 									"height": 13,
-									"alpha": 1.5707963267948966,
-									"distance": 15,
+									"alpha": -4.736694737215774,
+									"distance": 33.015148038438355,
 									"hostEdge": {
 										"$ref": "AAAAAAF9r9TBQp3dEPo="
 									},
-									"edgePosition": 1
+									"edgePosition": 1,
+									"text": "+Servizio"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -2823,17 +2824,17 @@
 										"$ref": "AAAAAAF+fDwKOsfQMKA="
 									},
 									"font": "Arial;13;0",
-									"left": 1071,
-									"top": 784,
-									"width": 74.8134765625,
+									"left": 1100,
+									"top": 783,
+									"width": 97.9189453125,
 									"height": 13,
-									"alpha": -4.2487411451933665,
-									"distance": 31.304951684997057,
+									"alpha": -2.432965886364229,
+									"distance": 18.439088914585774,
 									"hostEdge": {
 										"$ref": "AAAAAAF+fDwKOsfUAvM="
 									},
 									"edgePosition": 1,
-									"text": "+adiacente a"
+									"text": "+Tavoli Adiacenti"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -2886,17 +2887,18 @@
 									"model": {
 										"$ref": "AAAAAAF+fDwKOsfR4yg="
 									},
-									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1027,
-									"top": 770,
+									"left": 983,
+									"top": 759,
+									"width": 74.8134765625,
 									"height": 13,
-									"alpha": 0.5235987755982988,
-									"distance": 30,
+									"alpha": 0.4899574452847264,
+									"distance": 17,
 									"hostEdge": {
 										"$ref": "AAAAAAF+fDwKOsfUAvM="
 									},
-									"edgePosition": 2
+									"edgePosition": 2,
+									"text": "+adiacente a"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -2950,16 +2952,17 @@
 									"model": {
 										"$ref": "AAAAAAF+fDwKOsfSBTA="
 									},
-									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1137,
-									"top": 664,
+									"left": 1111,
+									"top": 663,
+									"width": 74.8134765625,
 									"height": 13,
-									"alpha": -0.5235987755982988,
-									"distance": 30,
+									"alpha": -0.3708911949789048,
+									"distance": 38.62641583165593,
 									"hostEdge": {
 										"$ref": "AAAAAAF+fDwKOsfUAvM="
-									}
+									},
+									"text": "+adiacente a"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -4383,13 +4386,14 @@
 							"_parent": {
 								"$ref": "AAAAAAF9r5HHCY9luco="
 							},
-							"name": "adiacente a",
+							"name": "Tavoli Adiacenti",
 							"end1": {
 								"_type": "UMLAssociationEnd",
 								"_id": "AAAAAAF+fDwKOsfR4yg=",
 								"_parent": {
 									"$ref": "AAAAAAF+fDwKOsfQMKA="
 								},
+								"name": "adiacente a",
 								"reference": {
 									"$ref": "AAAAAAF9r5HHCY9luco="
 								},
@@ -4401,6 +4405,7 @@
 								"_parent": {
 									"$ref": "AAAAAAF+fDwKOsfQMKA="
 								},
+								"name": "adiacente a",
 								"reference": {
 									"$ref": "AAAAAAF9r5HHCY9luco="
 								},
@@ -4444,9 +4449,8 @@
 							"_parent": {
 								"$ref": "AAAAAAF9r5HHCY9luco="
 							},
-							"name": "cod tavolo",
-							"visibility": "private",
-							"type": ""
+							"name": "codT",
+							"visibility": "private"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -4575,9 +4579,8 @@
 							"_parent": {
 								"$ref": "AAAAAAF9r5HyEo+O5L0="
 							},
-							"name": "codice sala",
-							"visibility": "private",
-							"type": ""
+							"name": "codS",
+							"visibility": "private"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -4636,6 +4639,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF9r5jStI/tHh4="
 							},
+							"name": "Servizio",
 							"ownedElements": [
 								{
 									"_type": "UMLConstraint",
