@@ -1,2 +1,7 @@
-INSERT INTO Ristorante
-VALUES;
+INSERT INTO Ristorante(nome, citta, indirizzo, n°civico, n°sale)
+VALUES ('Trianon vomero', 'Napoli', 'Via Raffaele Morghen', 12, 3),
+	   ('Lo Sfizio', 'Napoli', 'Via Gabriele Jannelli', 21, 1),
+	   ('', 'Pozzuoli');
+	   
+INSERT INTO Sala(n°tavoli, codR)
+VALUES (9, aaaaaaaaaaaaaaaaaaaa)
