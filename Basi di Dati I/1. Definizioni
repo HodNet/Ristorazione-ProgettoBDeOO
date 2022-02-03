@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS Ristorante CASCADE;
 DROP TABLE IF EXISTS Sala CASCADE;
+DROP TABLE IF EXISTS Tavolo CASCADE;
 
 CREATE TABLE Ristorante
 (
@@ -20,4 +21,12 @@ CREATE TABLE Sala
 	n°tavoli integer,
 	codR integer, 
 	CONSTRAINT fk_codR FOREIGN KEY (codR) REFERENCES Ristorante(codR)
+);
+
+CREATE TABLE Tavolo
+(
+	codT SERIAL PRIMARY KEY,
+	n°maxAvventori integer,
+	codS integer,
+	CONSTRAINT fk_codS FOREIGN KEY (codS) REFERENCES Sala(codS)
 );

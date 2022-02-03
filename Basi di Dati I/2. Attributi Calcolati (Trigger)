@@ -1,0 +1,72 @@
+--Per far sì che n°sale sia un attributo calcolato:
+CREATE OR REPLACE FUNCTION CalcolaNumeroSaleDi(codRistorante Ristorante.codR%TYPE)
+RETURNS integer
+AS $$
+DECLARE ret integer;
+BEGIN
+	SELECT N_S.count INTO ret
+	FROM (
+		SELECT S.codR, COUNT(S.codS)
+		FROM Ristorante AS R NATURAL JOIN Sala AS S
+		GROUP BY S.codR
+	) AS N_S
+	WHERE N_S.codR = codRistorante;
+	IF ret IS NULL THEN 
+		ret:=0;
+	END IF;
+	RETURN ret;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION AggiornaNumeroSale()
+RETURNS TRIGGER
+AS $$
+BEGIN 
+	UPDATE Ristorante
+	SET n°sale = (SELECT CalcolaNumeroSaleDi(codR))
+	WHERE codR = NEW.codR OR codR = OLD.codR;
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER AggiornaNumeroSale
+AFTER INSERT OR DELETE ON Sala
+FOR EACH ROW
+EXECUTE PROCEDURE AggiornaNumeroSale();
+
+
+--Per far sì che n°tavoli sia un attributo calcolato:
+CREATE OR REPLACE FUNCTION CalcolaNumeroTavoliDi(codSala Sala.codS%TYPE)
+RETURNS integer
+AS $$
+DECLARE ret integer;
+BEGIN
+	SELECT N_T.count INTO ret
+	FROM (
+		SELECT S.codS, COUNT(T.codT)
+		FROM Sala AS S NATURAL JOIN Tavolo AS T
+		GROUP BY S.codS
+	) AS N_T
+	WHERE N_T.codS = codSala;
+	IF ret IS NULL THEN 
+		ret:=0;
+	END IF;
+	RETURN ret;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION AggiornaNumeroTavoli()
+RETURNS TRIGGER
+AS $$
+BEGIN 
+	UPDATE Sala
+	SET n°tavoli = (SELECT CalcolaNumeroTavoliDi(codS))
+	WHERE codS = NEW.codS OR codS = OLD.codS;
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER AggiornaNumeroTavoli
+AFTER INSERT OR DELETE ON Tavolo
+FOR EACH ROW
+EXECUTE PROCEDURE AggiornaNumeroTavoli();
