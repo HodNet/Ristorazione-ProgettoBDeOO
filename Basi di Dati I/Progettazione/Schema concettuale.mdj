@@ -203,7 +203,7 @@
 											"top": 162,
 											"width": 199,
 											"height": 13,
-											"text": "-numero sale",
+											"text": "-/numero sale",
 											"horizontalAlignment": 0
 										},
 										{
@@ -661,7 +661,7 @@
 											"top": 357,
 											"width": 238,
 											"height": 13,
-											"text": "-numero tavoli",
+											"text": "-/numero tavoli",
 											"horizontalAlignment": 0
 										}
 									],
@@ -3730,6 +3730,64 @@
 							},
 							"lineStyle": 1,
 							"points": "531:803;615:729"
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAF+u9IbofDklTw=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 1152,
+							"top": 128,
+							"width": 185,
+							"height": 64,
+							"text": "\"numero sale\" è uguale al numero di istanze di Sala associate a questa istanza di Ristorante"
+						},
+						{
+							"_type": "UMLNoteLinkView",
+							"_id": "AAAAAAF+u9N74/OYZCs=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAF+u9IbofDklTw="
+							},
+							"tail": {
+								"$ref": "AAAAAAF9r5F3kY896bY="
+							},
+							"lineStyle": 1,
+							"points": "1121:157;1151:158"
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAF+u9QnVvVVhhY=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 1168,
+							"top": 328,
+							"width": 185,
+							"height": 64,
+							"text": "\"numero tavoli\" è uguale al numero di istanze di Tavolo associate a questa istanza di Sala"
+						},
+						{
+							"_type": "UMLNoteLinkView",
+							"_id": "AAAAAAF+u9QnVvVWoEY=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAF+u9QnVvVVhhY="
+							},
+							"tail": {
+								"$ref": "AAAAAAF9r5HyE4+Q8nw="
+							},
+							"lineStyle": 1,
+							"points": "1136:383;1167:377"
 						}
 					]
 				},
@@ -3818,7 +3876,8 @@
 							},
 							"name": "numero sale",
 							"visibility": "private",
-							"type": ""
+							"type": "",
+							"isDerived": true
 						},
 						{
 							"_type": "UMLAttribute",
@@ -4046,7 +4105,8 @@
 							},
 							"name": "numero tavoli",
 							"visibility": "private",
-							"type": ""
+							"type": "",
+							"isDerived": true
 						}
 					]
 				},

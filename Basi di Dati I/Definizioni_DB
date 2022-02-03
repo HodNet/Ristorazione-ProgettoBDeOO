@@ -1,0 +1,23 @@
+DROP TABLE IF EXISTS Ristorante CASCADE;
+DROP TABLE IF EXISTS Sala CASCADE;
+
+CREATE TABLE Ristorante
+(
+	codR SERIAL PRIMARY KEY,
+	nome VARCHAR(50),
+	città VARCHAR(50),
+	indirizzo VARCHAR(100),
+	n°civico VARCHAR(5),
+	n°sale integer,
+	oraApertura integer DEFAULT 20,
+	oraChiusura integer DEFAULT 22,
+	CONSTRAINT unicità UNIQUE(città, indirizzo, n°civico)
+);
+
+CREATE TABLE Sala
+(
+	codS SERIAL PRIMARY KEY,
+	n°tavoli integer,
+	codR integer, 
+	CONSTRAINT fk_codR FOREIGN KEY (codR) REFERENCES Ristorante(codR)
+);
