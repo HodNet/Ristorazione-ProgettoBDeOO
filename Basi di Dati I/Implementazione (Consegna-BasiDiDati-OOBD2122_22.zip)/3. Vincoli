@@ -1,0 +1,26 @@
+/* stupido postgresql
+CREATE ASSERTION n°MassimoDiAvventoriSuperato
+	CHECK (NOT EXISTS 
+	(
+		SELECT *
+		FROM Tavolata NATURAL JOIN Tavolo
+		WHERE Tavolata.n°avventori > Tavolo.n°maxAvventori
+	));
+*/
+
+CREATE OR REPLACE FUNCTION n°MassimoDiAvventoriSuperato()
+RETURNS TRIGGER
+AS $$
+BEGIN 
+	IF NEW.n°avventori > (SELECT n°maxAvventori FROM Tavolo WHERE codT = NEW.codT) THEN 
+	RAISE EXCEPTION 'Il tavolo di codice % contiene un numero insufficiente di posti 
+		per contenere % avventori', NEW.codT, NEW.n°avventori;
+	END IF;
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER n°MassimoDiAvventoriSuperato
+BEFORE INSERT OR UPDATE ON Tavolata
+FOR EACH ROW
+EXECUTE PROCEDURE n°MassimoDiAvventoriSuperato();

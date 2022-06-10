@@ -3115,38 +3115,6 @@
 						},
 						{
 							"_type": "UMLConstraintView",
-							"_id": "AAAAAAF+fF5PIvgDz3M=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"model": {
-								"$ref": "AAAAAAF+fF4dwfezgzs="
-							},
-							"font": "Arial;13;0",
-							"left": 584,
-							"top": 768,
-							"width": 177,
-							"height": 137,
-							"text": "{ Vincolo di dominio                                             \n                                             la data di arrivo deve essere compresa tra ora di arrivo e ora di chiusura}"
-						},
-						{
-							"_type": "UMLConstraintLinkView",
-							"_id": "AAAAAAF+fF5PIvgEpEo=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Arial;13;0",
-							"head": {
-								"$ref": "AAAAAAF9r5jStY/vW8M="
-							},
-							"tail": {
-								"$ref": "AAAAAAF+fF5PIvgDz3M="
-							},
-							"lineStyle": 1,
-							"points": "673:767;674:744"
-						},
-						{
-							"_type": "UMLConstraintView",
 							"_id": "AAAAAAF+fGgAXxfCHN4=",
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
@@ -3155,7 +3123,7 @@
 								"$ref": "AAAAAAF+fGcyvRcHh5w="
 							},
 							"font": "Arial;13;0",
-							"left": 816,
+							"left": 728,
 							"top": 792,
 							"width": 129,
 							"height": 116,
@@ -3175,7 +3143,7 @@
 								"$ref": "AAAAAAF+fGgAXxfCHN4="
 							},
 							"lineStyle": 1,
-							"points": "819:791;752:728"
+							"points": "757:791;729:744"
 						},
 						{
 							"_type": "UMLConstraintView",
@@ -3187,7 +3155,7 @@
 								"$ref": "AAAAAAF+fGmEzRxyq6U="
 							},
 							"font": "Arial;13;0",
-							"left": 392,
+							"left": 496,
 							"top": 792,
 							"width": 123.33349609375,
 							"height": 116,
@@ -3207,7 +3175,7 @@
 								"$ref": "AAAAAAF+fGreSh/tEbM="
 							},
 							"lineStyle": 1,
-							"points": "515:795;599:721"
+							"points": "592:791;621:744"
 						},
 						{
 							"_type": "UMLAssociationView",

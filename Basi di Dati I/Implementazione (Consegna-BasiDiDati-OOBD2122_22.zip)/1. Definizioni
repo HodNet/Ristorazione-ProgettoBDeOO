@@ -1,0 +1,52 @@
+DROP TABLE IF EXISTS Ristorante CASCADE;
+DROP TABLE IF EXISTS Sala CASCADE;
+DROP TABLE IF EXISTS Tavolo CASCADE;
+DROP TABLE IF EXISTS TavoliAdiacenti CASCADE;
+DROP TABLE IF EXISTS Tavolata CASCADE;
+
+CREATE TABLE Ristorante
+(
+	codR SERIAL PRIMARY KEY,
+	nome VARCHAR(50) NOT NULL,
+	città VARCHAR(50) NOT NULL,
+	indirizzo VARCHAR(100) NOT NULL,
+	n°civico VARCHAR(5) NOT NULL,
+	n°sale integer,
+	oraApertura integer NOT NULL DEFAULT 20,
+	oraChiusura integer NOT NULL DEFAULT 22,
+	UNIQUE(città, indirizzo, n°civico)
+);
+
+CREATE TABLE Sala
+(
+	codS SERIAL PRIMARY KEY,
+	n°tavoli integer,
+	codR integer NOT NULL, 
+	FOREIGN KEY (codR) REFERENCES Ristorante(codR)
+);
+
+CREATE TABLE Tavolo
+(
+	codT SERIAL PRIMARY KEY,
+	n°maxAvventori integer NOT NULL,
+	codS integer NOT NULL,
+	FOREIGN KEY (codS) REFERENCES Sala(codS)
+);
+
+CREATE TABLE TavoliAdiacenti
+(
+	tavolo1 integer NOT NULL,
+	tavolo2 integer NOT NULL,
+	FOREIGN KEY(tavolo1) REFERENCES Tavolo(codT),
+	FOREIGN KEY(tavolo2) REFERENCES Tavolo(codT), 
+	UNIQUE(tavolo1, tavolo2)
+);
+
+CREATE TABLE Tavolata
+(
+	dataDiArrivo date NOT NULL,
+	n°avventori integer NOT NULL,
+	codT integer NOT NULL,
+	FOREIGN KEY(codT) REFERENCES Tavolo(codT),
+	PRIMARY KEY(DataDiArrivo, codT)
+);

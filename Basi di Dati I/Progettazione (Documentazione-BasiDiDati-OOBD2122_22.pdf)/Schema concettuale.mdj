@@ -1140,19 +1140,6 @@
 							}
 						},
 						{
-							"_type": "UMLTextBoxView",
-							"_id": "AAAAAAF9r7SRa5P/5fk=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Arial;13;0",
-							"left": 1072,
-							"top": 248,
-							"width": 104,
-							"height": 56,
-							"text": "da rivedere associazione"
-						},
-						{
 							"_type": "UMLAssociationView",
 							"_id": "AAAAAAF9r8EAQpQzOYQ=",
 							"_parent": {
@@ -3637,38 +3624,6 @@
 						},
 						{
 							"_type": "UMLConstraintView",
-							"_id": "AAAAAAF+fF5PIvgDz3M=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"model": {
-								"$ref": "AAAAAAF+fF4dwfezgzs="
-							},
-							"font": "Arial;13;0",
-							"left": 600,
-							"top": 776,
-							"width": 177,
-							"height": 137,
-							"text": "{ Vincolo di dominio                                             \n                                             la data di arrivo deve essere compresa tra ora di arrivo e ora di chiusura}"
-						},
-						{
-							"_type": "UMLConstraintLinkView",
-							"_id": "AAAAAAF+fF5PIvgEpEo=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Arial;13;0",
-							"head": {
-								"$ref": "AAAAAAF9r5jStY/vW8M="
-							},
-							"tail": {
-								"$ref": "AAAAAAF+fF5PIvgDz3M="
-							},
-							"lineStyle": 1,
-							"points": "689:775;690:752"
-						},
-						{
-							"_type": "UMLConstraintView",
 							"_id": "AAAAAAF+fGgAXxfCHN4=",
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
@@ -3677,8 +3632,8 @@
 								"$ref": "AAAAAAF+fGcyvRcHh5w="
 							},
 							"font": "Arial;13;0",
-							"left": 832,
-							"top": 792,
+							"left": 736,
+							"top": 800,
 							"width": 129,
 							"height": 116,
 							"text": "{Vincolo di unicità\n\nunique (data  di arrivo, cod  tavolo)}"
@@ -3697,7 +3652,7 @@
 								"$ref": "AAAAAAF+fGgAXxfCHN4="
 							},
 							"lineStyle": 1,
-							"points": "832:791;768:733"
+							"points": "767:799;741:752"
 						},
 						{
 							"_type": "UMLConstraintView",
@@ -3709,7 +3664,7 @@
 								"$ref": "AAAAAAF+fGmEzRxyq6U="
 							},
 							"font": "Arial;13;0",
-							"left": 408,
+							"left": 520,
 							"top": 800,
 							"width": 123.33349609375,
 							"height": 116,
@@ -3729,7 +3684,7 @@
 								"$ref": "AAAAAAF+fGreSh/tEbM="
 							},
 							"lineStyle": 1,
-							"points": "531:803;615:729"
+							"points": "614:799;641:752"
 						},
 						{
 							"_type": "UMLNoteView",
