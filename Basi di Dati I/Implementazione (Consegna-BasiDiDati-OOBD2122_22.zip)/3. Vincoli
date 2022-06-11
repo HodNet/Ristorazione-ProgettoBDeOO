@@ -13,7 +13,7 @@ RETURNS TRIGGER
 AS $$
 BEGIN 
 	IF NEW.n°avventori > (SELECT n°maxAvventori FROM Tavolo WHERE codT = NEW.codT) THEN 
-	RAISE EXCEPTION 'Il tavolo di codice % contiene un numero insufficiente di posti 
+		RAISE EXCEPTION 'Il tavolo di codice % contiene un numero insufficiente di posti 
 		per contenere % avventori', NEW.codT, NEW.n°avventori;
 	END IF;
 	RETURN NEW;
@@ -24,3 +24,59 @@ CREATE OR REPLACE TRIGGER n°MassimoDiAvventoriSuperato
 BEFORE INSERT OR UPDATE ON Tavolata
 FOR EACH ROW
 EXECUTE PROCEDURE n°MassimoDiAvventoriSuperato();
+
+--------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION TavoliAdiacentiDevonoAppartenereAllaStessaSala()
+RETURNS TRIGGER
+AS $$
+BEGIN 
+	IF (SELECT codS FROM Tavolo WHERE codT=NEW.tavolo1) <> (SELECT codS FROM Tavolo WHERE codT=NEW.tavolo2) THEN
+		RAISE EXCEPTION 'Il tavolo % non può essere adiacente al tavolo %', NEW.tavolo1, NEW.tavolo2;
+	END IF;
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER TavoliAdiacentiDevonoAppartenereAllaStessaSala
+BEFORE INSERT OR UPDATE ON TavoliAdiacenti
+FOR EACH ROW
+EXECUTE PROCEDURE TavoliAdiacentiDevonoAppartenereAllaStessaSala();
+
+--------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION niente()
+RETURNS TRIGGER
+AS $$
+BEGIN 
+	RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER RidondanzaTavoloAdiacenteConSeStesso
+BEFORE INSERT OR UPDATE ON TavoliAdiacenti
+FOR EACH ROW
+WHEN (NEW.Tavolo1=NEW.Tavolo2)
+EXECUTE FUNCTION niente();
+
+--------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION ProprietàSimmetricaTavoliAdiacenti()
+RETURNS TRIGGER
+AS $$
+BEGIN 
+	IF EXISTS (
+		SELECT* 
+		FROM TavoliAdiacenti 
+		WHERE (tavolo2, tavolo1) NOT IN (SELECT* FROM TavoliAdiacenti);
+	) THEN
+		RAISE EXCEPTION 'Ci'
+	END IF;
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER ProprietàSimmetricaTavoliAdiacenti
+AFTER INSERT OR UPDATE ON TavoliAdiacenti
+FOR EACH STATEMENT
+EXECUTE FUNCTION ProprietàSimmetricaTavoliAdiacenti();
