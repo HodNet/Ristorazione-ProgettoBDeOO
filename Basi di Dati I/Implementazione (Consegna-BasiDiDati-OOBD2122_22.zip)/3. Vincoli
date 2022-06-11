@@ -68,9 +68,9 @@ BEGIN
 	IF EXISTS (
 		SELECT* 
 		FROM TavoliAdiacenti 
-		WHERE (tavolo2, tavolo1) NOT IN (SELECT* FROM TavoliAdiacenti);
+		WHERE (tavolo2, tavolo1) NOT IN (SELECT* FROM TavoliAdiacenti)
 	) THEN
-		RAISE EXCEPTION 'Ci'
+		RAISE EXCEPTION 'Un certo tavolo A è adiacente a B ma B non è adiacente ad A';
 	END IF;
 	RETURN NEW;
 END;
