@@ -1,4 +1,5 @@
-/* stupido postgresql
+/* stupido postgresql, i create assertion che ci ha insegnato peron non esistono qua, al loro posto dobbiamo usare 
+   i trigger con un "raise exception" dentro 
 CREATE ASSERTION n°MassimoDiAvventoriSuperato
 	CHECK (NOT EXISTS 
 	(
@@ -45,32 +46,18 @@ EXECUTE PROCEDURE TavoliAdiacentiDevonoAppartenereAllaStessaSala();
 
 --------------------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION niente()
-RETURNS TRIGGER
-AS $$
-BEGIN 
-	RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE TRIGGER RidondanzaTavoloAdiacenteConSeStesso
-BEFORE INSERT OR UPDATE ON TavoliAdiacenti
-FOR EACH ROW
-WHEN (NEW.Tavolo1=NEW.Tavolo2)
-EXECUTE FUNCTION niente();
-
---------------------------------------------------------------------------
-
 CREATE OR REPLACE FUNCTION ProprietàSimmetricaTavoliAdiacenti()
 RETURNS TRIGGER
 AS $$
-BEGIN 
-	IF EXISTS (
-		SELECT* 
-		FROM TavoliAdiacenti 
-		WHERE (tavolo2, tavolo1) NOT IN (SELECT* FROM TavoliAdiacenti)
-	) THEN
-		RAISE EXCEPTION 'Un certo tavolo A è adiacente a B ma B non è adiacente ad A';
+DECLARE
+	tavoloA integer;
+	tavoloB integer;
+BEGIN
+	SELECT tavolo1, tavolo2 INTO tavoloA, tavoloB
+	FROM TavoliAdiacenti
+	WHERE (tavolo2, tavolo1) NOT IN (SELECT* FROM TavoliAdiacenti);
+	IF tavoloA IS NOT NULL THEN
+		RAISE EXCEPTION 'Il tavolo % è adiacente al tavolo %, ma non viceversa', tavoloA, tavoloB;
 	END IF;
 	RETURN NEW;
 END;
@@ -80,3 +67,7 @@ CREATE OR REPLACE TRIGGER ProprietàSimmetricaTavoliAdiacenti
 AFTER INSERT OR UPDATE ON TavoliAdiacenti
 FOR EACH STATEMENT
 EXECUTE FUNCTION ProprietàSimmetricaTavoliAdiacenti();
+
+--------------------------------------------------------------------------
+
+--scrivi da qua in poi i tuoi vincoli

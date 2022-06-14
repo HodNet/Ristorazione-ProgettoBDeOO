@@ -34,6 +34,7 @@ AFTER INSERT OR DELETE ON Sala
 FOR EACH ROW
 EXECUTE PROCEDURE AggiornaNumeroSale();
 
+--------------------------------------------------------------------------
 
 --Per far sì che n°tavoli sia un attributo calcolato:
 CREATE OR REPLACE FUNCTION CalcolaNumeroTavoliDi(codSala Sala.codS%TYPE)
@@ -70,3 +71,25 @@ CREATE OR REPLACE TRIGGER AggiornaNumeroTavoli
 AFTER INSERT OR DELETE ON Tavolo
 FOR EACH ROW
 EXECUTE PROCEDURE AggiornaNumeroTavoli();
+
+--------------------------------------------------------------------------
+
+--Un tavolo tecnicamente è sempre adiacente con sé stesso, ma è un'informazione inutile da salvare in questo database.
+--Quindi questo trigger fa si che venga ignorato un qualsiasi inserimento da parte dell'utente di una coppia identica
+CREATE OR REPLACE FUNCTION niente()
+RETURNS TRIGGER
+AS $$
+BEGIN 
+	RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER RidondanzaTavoloAdiacenteConSeStesso
+BEFORE INSERT OR UPDATE ON TavoliAdiacenti
+FOR EACH ROW
+WHEN (NEW.Tavolo1=NEW.Tavolo2)
+EXECUTE FUNCTION niente();
+
+--------------------------------------------------------------------------
+
+--scrivi da qua in poi eventuali tuoi attributi calcolati o altri eventuali calcoli automatici per i tuoi attributi

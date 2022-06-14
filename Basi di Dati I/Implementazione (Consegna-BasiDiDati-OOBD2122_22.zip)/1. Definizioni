@@ -3,6 +3,10 @@ DROP TABLE IF EXISTS Sala CASCADE;
 DROP TABLE IF EXISTS Tavolo CASCADE;
 DROP TABLE IF EXISTS TavoliAdiacenti CASCADE;
 DROP TABLE IF EXISTS Tavolata CASCADE;
+DROP TABLE IF EXISTS Avventore CASCADE;
+DROP TABLE IF EXISTS Incarico CASCADE;
+DROP TABLE IF EXISTS Personale CASCADE;
+DROP TABLE IF EXISTS Servizio CASCADE;
 
 CREATE TABLE Ristorante
 (
@@ -49,4 +53,24 @@ CREATE TABLE Tavolata
 	codT integer NOT NULL,
 	FOREIGN KEY(codT) REFERENCES Tavolo(codT),
 	PRIMARY KEY(DataDiArrivo, codT)
+);
+
+CREATE TABLE Avventore
+(
+	
+);
+
+CREATE TABLE Incarico
+(
+	
+);
+
+CREATE TABLE Personale
+(
+	
+);
+
+CREATE TABLE Servizio
+(
+	
 );
