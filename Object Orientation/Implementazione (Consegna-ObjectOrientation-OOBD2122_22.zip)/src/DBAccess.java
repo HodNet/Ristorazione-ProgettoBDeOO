@@ -1,5 +1,3 @@
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,33 +9,18 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
 
 public class DBAccess extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField url; //"jdbc:postgresql://localhost:5432/Ristorazione"
+	private JTextField username; //"postgres"
+	private JPasswordField password; //"giocaremolto8"
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DBAccess frame = new DBAccess();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public DBAccess() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,32 +60,45 @@ public class DBAccess extends JFrame {
 		lblNewLabel_3.setBounds(256, 59, 30, 22);
 		contentPane.add(lblNewLabel_3);
 		
-		textField = new JTextField();
-		textField.setBounds(256, 92, 291, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		url = new JTextField();
+		url.setText("jdbc:postgresql://localhost:5432/");
+		url.setBounds(256, 92, 291, 20);
+		contentPane.add(url);
+		url.setColumns(10);
 		
 		JLabel lblNewLabel_4 = new JLabel("Username:");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_4.setBounds(256, 150, 66, 22);
 		contentPane.add(lblNewLabel_4);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(256, 183, 291, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		username = new JTextField();
+		username.setBounds(256, 183, 291, 20);
+		contentPane.add(username);
+		username.setColumns(10);
 		
 		JLabel lblNewLabel_5 = new JLabel("Password:");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_5.setBounds(256, 244, 66, 22);
 		contentPane.add(lblNewLabel_5);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(256, 277, 291, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		password = new JPasswordField();
+		password.setBounds(256, 277, 291, 20);
+		contentPane.add(password);
 		
 		JButton btnNewButton = new JButton("Next");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					DBConnector.getIstance(url.getText(), username.getText(), String.valueOf(password.getPassword()));
+				} catch(ClassNotFoundException e1) {
+					e1.printStackTrace();
+				} catch(SQLException throwables) {
+					ErrorMessage error = new ErrorMessage("Error in connecting to PostgreSQL server");
+					error.setVisible(true);
+					//throwables.printStackTrace();
+				}
+			}
+		});
 		btnNewButton.setBounds(458, 340, 89, 23);
 		contentPane.add(btnNewButton);
 	}
