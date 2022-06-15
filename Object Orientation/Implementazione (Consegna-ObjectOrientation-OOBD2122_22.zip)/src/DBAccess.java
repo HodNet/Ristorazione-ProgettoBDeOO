@@ -1,3 +1,5 @@
+import java.io.*;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,6 +15,7 @@ import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
 
 public class DBAccess extends JFrame {
 
@@ -20,6 +23,8 @@ public class DBAccess extends JFrame {
 	private JTextField url; //"jdbc:postgresql://localhost:5432/Ristorazione"
 	private JTextField username; //"postgres"
 	private JPasswordField password; //"giocaremolto8"
+	private JCheckBox ricordaPassword;
+	private static final String DBinfoURL = DBAccess.class.getResource("/saves/DBinfo.txt").getPath();
 
 	public DBAccess() {
 		setResizable(false);
@@ -61,7 +66,7 @@ public class DBAccess extends JFrame {
 		contentPane.add(lblNewLabel_3);
 		
 		url = new JTextField();
-		url.setText("jdbc:postgresql://localhost:5432/");
+		url.setText(getUrlFromFile());
 		url.setBounds(256, 92, 291, 20);
 		contentPane.add(url);
 		url.setColumns(10);
@@ -72,6 +77,7 @@ public class DBAccess extends JFrame {
 		contentPane.add(lblNewLabel_4);
 		
 		username = new JTextField();
+		username.setText(getUsernameFromFile());
 		username.setBounds(256, 183, 291, 20);
 		contentPane.add(username);
 		username.setColumns(10);
@@ -82,31 +88,91 @@ public class DBAccess extends JFrame {
 		contentPane.add(lblNewLabel_5);
 		
 		password = new JPasswordField();
+		password.setText(getPasswordFromFile());
 		password.setBounds(256, 277, 291, 20);
 		contentPane.add(password);
+		
+		ricordaPassword = new JCheckBox("Ricorda password");
+		ricordaPassword.setBackground(Color.WHITE);
+		ricordaPassword.setBounds(252, 304, 187, 23);
+		contentPane.add(ricordaPassword);
 		
 		JButton btnNewButton = new JButton("Next");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					DBConnector.getIstance(url.getText(), username.getText(), String.valueOf(password.getPassword()));
-				} catch(ClassNotFoundException e1) {
-					e1.printStackTrace();
-				} catch(SQLException throwables) {
-					ErrorMessage error = new ErrorMessage("Error in connecting to PostgreSQL server");
-					error.setVisible(true);
-					//throwables.printStackTrace();
-				}
+				next();
 			}
 		});
 		btnNewButton.setBounds(458, 340, 89, 23);
 		contentPane.add(btnNewButton);
 	}
 	
-	public void scaleImage(JLabel label, ImageIcon icon) {
+	private void scaleImage(JLabel label, ImageIcon icon) {
 		Image img = icon.getImage();
 		Image scaledImg = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon = new ImageIcon(scaledImg);
 		label.setIcon(scaledIcon);
 	}
+	
+	private void saveAllIntoFile() throws IOException {
+		BufferedWriter DBinfo = new BufferedWriter( new FileWriter(DBinfoURL) );
+		DBinfo.write(url.getText() + "\n");
+		DBinfo.write(username.getText() + "\n");
+		DBinfo.write(String.valueOf(password.getPassword()) + "\n");
+		DBinfo.close();
+	}
+	
+	private String getUrlFromFile() {
+		try {
+			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoURL) );
+			String ret = DBinfo.readLine();
+			DBinfo.close();
+			return ret;
+		} catch (IOException e) {
+			return "jdbc:postgresql://localhost:5432/";
+		}
+	}
+	
+	private String getUsernameFromFile() {
+		try {
+			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoURL) );
+			String ret = DBinfo.readLine();
+			ret = DBinfo.readLine();
+			DBinfo.close();
+			return ret;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+	
+	private String getPasswordFromFile() {
+		try {
+			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoURL) );
+			String ret = DBinfo.readLine();
+			ret = DBinfo.readLine();
+			ret = DBinfo.readLine();
+			DBinfo.close();
+			return ret;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+	
+	private void next() {
+		try {
+			DBConnector.getIstance(url.getText(), username.getText(), String.valueOf(password.getPassword()));
+			if(ricordaPassword.isSelected())
+				saveAllIntoFile();
+		} catch(ClassNotFoundException e1) {
+			ErrorMessage error = new ErrorMessage(this, "Error in connecting to PostgreSQL server");
+			error.setVisible(true);
+		} catch(SQLException exc) {
+			ErrorMessage error = new ErrorMessage(this, "Error in connecting to the PostgreSQL Database");
+			error.setVisible(true);
+		} catch(IOException exc) {
+			ErrorMessage error = new ErrorMessage(this, "Error in saving the password");
+			error.setVisible(true);
+		}
+	}
+	
 }
