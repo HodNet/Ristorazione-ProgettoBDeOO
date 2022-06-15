@@ -24,9 +24,10 @@ public class DBAccess extends JFrame {
 	private JTextField username; //"postgres"
 	private JPasswordField password; //"giocaremolto8"
 	private JCheckBox ricordaPassword;
-	private static final String DBinfoURL = DBAccess.class.getResource("/saves/DBinfo.txt").getPath();
-
+	private static final String DBinfoFilePath = System.getProperty("user.dir") + File.separator + "src\\saves\\DBinfo.txt";
+	
 	public DBAccess() {
+		setTitle("Tracciamento Covid-19 per ristoranti");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 425);
@@ -51,7 +52,7 @@ public class DBAccess extends JFrame {
 		
 		JLabel lblNewLabel_1 = new JLabel("Using:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1.setForeground(new Color(102, 153, 204));
+		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setBounds(10, 279, 50, 15);
 		gradientPanel.add(lblNewLabel_1);
 		
@@ -93,6 +94,7 @@ public class DBAccess extends JFrame {
 		contentPane.add(password);
 		
 		ricordaPassword = new JCheckBox("Ricorda password");
+		ricordaPassword.setSelected(true);
 		ricordaPassword.setBackground(Color.WHITE);
 		ricordaPassword.setBounds(252, 304, 187, 23);
 		contentPane.add(ricordaPassword);
@@ -115,7 +117,7 @@ public class DBAccess extends JFrame {
 	}
 	
 	private void saveAllIntoFile() throws IOException {
-		BufferedWriter DBinfo = new BufferedWriter( new FileWriter(DBinfoURL) );
+		BufferedWriter DBinfo = new BufferedWriter( new FileWriter(DBinfoFilePath) );
 		DBinfo.write(url.getText() + "\n");
 		DBinfo.write(username.getText() + "\n");
 		DBinfo.write(String.valueOf(password.getPassword()) + "\n");
@@ -124,18 +126,18 @@ public class DBAccess extends JFrame {
 	
 	private String getUrlFromFile() {
 		try {
-			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoURL) );
+			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoFilePath) );
 			String ret = DBinfo.readLine();
 			DBinfo.close();
 			return ret;
 		} catch (IOException e) {
-			return "jdbc:postgresql://localhost:5432/";
+			return "jdbc:postgresql://localhost:5432/<NOME_DATABASE>";
 		}
 	}
 	
 	private String getUsernameFromFile() {
 		try {
-			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoURL) );
+			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoFilePath) );
 			String ret = DBinfo.readLine();
 			ret = DBinfo.readLine();
 			DBinfo.close();
@@ -147,7 +149,7 @@ public class DBAccess extends JFrame {
 	
 	private String getPasswordFromFile() {
 		try {
-			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoURL) );
+			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoFilePath) );
 			String ret = DBinfo.readLine();
 			ret = DBinfo.readLine();
 			ret = DBinfo.readLine();
@@ -163,15 +165,21 @@ public class DBAccess extends JFrame {
 			DBConnector.getIstance(url.getText(), username.getText(), String.valueOf(password.getPassword()));
 			if(ricordaPassword.isSelected())
 				saveAllIntoFile();
-		} catch(ClassNotFoundException e1) {
+			setVisible(false);
+			Home home = new Home();
+			home.setVisible(true);
+		} catch(ClassNotFoundException exc) {
 			ErrorMessage error = new ErrorMessage(this, "Error in connecting to PostgreSQL server");
 			error.setVisible(true);
+			exc.printStackTrace();
 		} catch(SQLException exc) {
 			ErrorMessage error = new ErrorMessage(this, "Error in connecting to the PostgreSQL Database");
 			error.setVisible(true);
+			exc.printStackTrace();
 		} catch(IOException exc) {
 			ErrorMessage error = new ErrorMessage(this, "Error in saving the password");
 			error.setVisible(true);
+			exc.printStackTrace();
 		}
 	}
 	
