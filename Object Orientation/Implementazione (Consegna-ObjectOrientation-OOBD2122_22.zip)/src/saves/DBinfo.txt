@@ -1,1 +1,3 @@
-jdbc:postgresql://localhost:5432/<NOME_DATABASE>
+jdbc:postgresql://localhost:5432/Ristorazione
+postgres
+giocaremolto8

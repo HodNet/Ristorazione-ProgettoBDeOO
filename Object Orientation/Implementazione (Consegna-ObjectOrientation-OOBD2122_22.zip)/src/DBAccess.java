@@ -1,28 +1,34 @@
-import java.io.*;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import java.awt.Image;
-import com.k33ptoo.components.KGradientPanel;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JPasswordField;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
-import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.SQLException;
 
-public class DBAccess extends JFrame {
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import com.k33ptoo.components.KGradientPanel;
+
+public class DBAccess extends Controller {
 
 	private JPanel contentPane;
-	private JTextField url; //"jdbc:postgresql://localhost:5432/Ristorazione"
-	private JTextField username; //"postgres"
-	private JPasswordField password; //"giocaremolto8"
+	private JTextField url;
+	private JTextField username;
+	private JPasswordField password;
 	private JCheckBox ricordaPassword;
 	private static final String DBinfoFilePath = System.getProperty("user.dir") + File.separator + "src\\saves\\DBinfo.txt";
 	
@@ -166,7 +172,7 @@ public class DBAccess extends JFrame {
 			if(ricordaPassword.isSelected())
 				saveAllIntoFile();
 			setVisible(false);
-			Home home = new Home();
+			home = new Home();
 			home.setVisible(true);
 		} catch(ClassNotFoundException exc) {
 			ErrorMessage error = new ErrorMessage(this, "Error in connecting to PostgreSQL server");
