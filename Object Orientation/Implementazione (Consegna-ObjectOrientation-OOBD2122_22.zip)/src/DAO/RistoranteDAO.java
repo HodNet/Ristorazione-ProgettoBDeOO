@@ -1,3 +1,4 @@
+package DAO;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,20 +21,19 @@ public class RistoranteDAO implements DAO<Ristorante> {
 		while(table.next()) {
 			if (ristoranti == null)
 				ristoranti = new LinkedList<Ristorante>();
-			String foto = System.getProperty("user.dir") + File.separator + "src\\images\\" + table.getString("nome");
-			ristoranti.add(new Ristorante(table.getString("codR"),
+			ristoranti.add(new Ristorante((table.getString("codR")),
 										  table.getString("nome"),
 										  table.getString("città"),
 										  table.getString("indirizzo"),
 										  table.getString("n°civico"),
-										  table.getByte("n°sale"), foto));
+										  table.getByte("n°sale")));
 		}
 	}
 	
 	@Override
 	public Ristorante get(String ID) {
 		for (Ristorante x : ristoranti)
-			if(x.getID() == ID)
+			if(x.getID().equals(ID))
 				return x;
 		return null;
 	}
@@ -56,4 +56,8 @@ public class RistoranteDAO implements DAO<Ristorante> {
     public void delete(Ristorante ristorante) {
     	
     }
+	
+	public int getNumeroRistoranti() {
+		return ristoranti.size();
+	}
 }

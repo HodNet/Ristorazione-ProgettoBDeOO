@@ -1,3 +1,4 @@
+package DAO;
 
 public class Ristorante {
 	private String ID;
@@ -6,9 +7,19 @@ public class Ristorante {
 	private String indirizzo; 
 	private String numeroCivico; 
 	private byte numeroSale; 
-	private static final byte oraApertura = 20;
-	private static final byte oraChiusura = 22;
+	private byte oraApertura = 20;
+	private byte oraChiusura = 22;
 	private String foto;
+	
+	public Ristorante(String ID, String nome, String città, String indirizzo, String numeroCivico, byte numeroSale) {
+		this.ID = ID;
+		this.nome = nome;
+		this.città = città;
+		this.indirizzo = indirizzo;
+		this.numeroCivico = numeroCivico;
+		this.numeroSale = numeroSale;
+		this.foto = nome + ID;
+	}
 	
 	public Ristorante(String ID, String nome, String città, String indirizzo, String numeroCivico, byte numeroSale, String foto) {
 		this.ID = ID;
@@ -60,11 +71,11 @@ public class Ristorante {
 		return numeroSale;
 	}
 
-	public static byte getOraapertura() {
+	public byte getOraapertura() {
 		return oraApertura;
 	}
 
-	public static byte getOrachiusura() {
+	public byte getOrachiusura() {
 		return oraChiusura;
 	}
 	

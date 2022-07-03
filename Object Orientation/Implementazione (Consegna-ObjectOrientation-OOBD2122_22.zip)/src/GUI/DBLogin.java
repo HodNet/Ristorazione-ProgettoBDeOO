@@ -1,3 +1,4 @@
+package GUI;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -23,20 +24,30 @@ import javax.swing.border.EmptyBorder;
 
 import com.k33ptoo.components.KGradientPanel;
 
-public class DBAccess extends Controller {
+import DAO.RistoranteDAO;
+import controller.Controller;
+import database.DBConnector;
 
+public class DBLogin extends JFrame {
+
+	private static final int width = 650;
+	private static final int height = 425;
+	private static final int x = Controller.screenWidth/2 - width/2;
+	private static final int y = Controller.screenHeight/2 - height/2;
+	
 	private JPanel contentPane;
 	private JTextField url;
 	private JTextField username;
 	private JPasswordField password;
+
 	private JCheckBox ricordaPassword;
-	private static final String DBinfoFilePath = System.getProperty("user.dir") + File.separator + "src\\saves\\DBinfo.txt";
+	public static final String DBinfoFilePath = System.getProperty("user.dir") + File.separator + "src\\saves\\DBinfo.txt";
 	
-	public DBAccess() {
+	public DBLogin() {
 		setTitle("Tracciamento Covid-19 per ristoranti");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 425);
+		setBounds(x, y, width, height);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -53,7 +64,7 @@ public class DBAccess extends Controller {
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setBounds(10, 305, 224, 70);
-		scaleImage(lblNewLabel, new ImageIcon(DBAccess.class.getResource("/images/PostegreSQL Logo.png")));
+		Controller.scaleImage(lblNewLabel, "PostegreSQL Logo.png");
 		gradientPanel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Using:");
@@ -73,7 +84,7 @@ public class DBAccess extends Controller {
 		contentPane.add(lblNewLabel_3);
 		
 		url = new JTextField();
-		url.setText(getUrlFromFile());
+		url.setText(Controller.getUrlFromFile());
 		url.setBounds(256, 92, 291, 20);
 		contentPane.add(url);
 		url.setColumns(10);
@@ -84,7 +95,7 @@ public class DBAccess extends Controller {
 		contentPane.add(lblNewLabel_4);
 		
 		username = new JTextField();
-		username.setText(getUsernameFromFile());
+		username.setText(Controller.getUsernameFromFile());
 		username.setBounds(256, 183, 291, 20);
 		contentPane.add(username);
 		username.setColumns(10);
@@ -95,7 +106,7 @@ public class DBAccess extends Controller {
 		contentPane.add(lblNewLabel_5);
 		
 		password = new JPasswordField();
-		password.setText(getPasswordFromFile());
+		password.setText(Controller.getPasswordFromFile());
 		password.setBounds(256, 277, 291, 20);
 		contentPane.add(password);
 		
@@ -108,85 +119,26 @@ public class DBAccess extends Controller {
 		JButton btnNewButton = new JButton("Next");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				next();
+				Controller.checkDataBase();
 			}
 		});
 		btnNewButton.setBounds(458, 340, 89, 23);
 		contentPane.add(btnNewButton);
 	}
 	
-	private void scaleImage(JLabel label, ImageIcon icon) {
-		Image img = icon.getImage();
-		Image scaledImg = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
-		ImageIcon scaledIcon = new ImageIcon(scaledImg);
-		label.setIcon(scaledIcon);
+	public String getUrl() {
+		return url.getText();
 	}
-	
-	private void saveAllIntoFile() throws IOException {
-		BufferedWriter DBinfo = new BufferedWriter( new FileWriter(DBinfoFilePath) );
-		DBinfo.write(url.getText() + "\n");
-		DBinfo.write(username.getText() + "\n");
-		DBinfo.write(String.valueOf(password.getPassword()) + "\n");
-		DBinfo.close();
+
+	public String getUsername() {
+		return username.getText();
 	}
-	
-	private String getUrlFromFile() {
-		try {
-			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoFilePath) );
-			String ret = DBinfo.readLine();
-			DBinfo.close();
-			return ret;
-		} catch (IOException e) {
-			return "jdbc:postgresql://localhost:5432/<NOME_DATABASE>";
-		}
+
+	public String getPassword() {
+		return String.valueOf(password.getPassword());
 	}
-	
-	private String getUsernameFromFile() {
-		try {
-			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoFilePath) );
-			String ret = DBinfo.readLine();
-			ret = DBinfo.readLine();
-			DBinfo.close();
-			return ret;
-		} catch (IOException e) {
-			return null;
-		}
+
+	public boolean ricordaPasswordIsSelected() {
+		return ricordaPassword.isSelected();
 	}
-	
-	private String getPasswordFromFile() {
-		try {
-			BufferedReader DBinfo = new BufferedReader( new FileReader(DBinfoFilePath) );
-			String ret = DBinfo.readLine();
-			ret = DBinfo.readLine();
-			ret = DBinfo.readLine();
-			DBinfo.close();
-			return ret;
-		} catch (IOException e) {
-			return null;
-		}
-	}
-	
-	private void next() {
-		try {
-			DBConnector.getIstance(url.getText(), username.getText(), String.valueOf(password.getPassword()));
-			if(ricordaPassword.isSelected())
-				saveAllIntoFile();
-			setVisible(false);
-			home = new Home();
-			home.setVisible(true);
-		} catch(ClassNotFoundException exc) {
-			ErrorMessage error = new ErrorMessage(this, "Error in connecting to PostgreSQL server");
-			error.setVisible(true);
-			exc.printStackTrace();
-		} catch(SQLException exc) {
-			ErrorMessage error = new ErrorMessage(this, "Error in connecting to the PostgreSQL Database");
-			error.setVisible(true);
-			exc.printStackTrace();
-		} catch(IOException exc) {
-			ErrorMessage error = new ErrorMessage(this, "Error in saving the password");
-			error.setVisible(true);
-			exc.printStackTrace();
-		}
-	}
-	
 }

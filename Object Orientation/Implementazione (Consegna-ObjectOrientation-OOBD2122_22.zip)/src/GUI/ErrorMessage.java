@@ -1,3 +1,4 @@
+package GUI;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -7,6 +8,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.Controller;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
@@ -16,10 +20,13 @@ import java.awt.Color;
 
 public class ErrorMessage extends JDialog {
 
+	private static final int width = 360;
+	private static final int height = 150;
+	
 	private final JPanel contentPanel = new JPanel();
 
 	public ErrorMessage(JFrame frame, String error) {
-		setBounds(frame.getX() + frame.getWidth()/2 - 180, frame.getY() + frame.getHeight()/2 - 75, 360, 150);
+		setBounds(frame.getX() + frame.getWidth()/2 - width/2, frame.getY() + frame.getHeight()/2 - height/2, width, height);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -27,7 +34,7 @@ public class ErrorMessage extends JDialog {
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setBounds(10, 11, 45, 45);
-		scaleImage(lblNewLabel, new ImageIcon(ErrorMessage.class.getResource("/images/error.png")));
+		Controller.scaleImage(lblNewLabel, "error.png");
 		contentPanel.add(lblNewLabel);
 		
 		JTextPane txtpnErrorMessage = new JTextPane();
@@ -53,12 +60,5 @@ public class ErrorMessage extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 		}
-	}
-	
-	public void scaleImage(JLabel label, ImageIcon icon) {
-		Image img = icon.getImage();
-		Image scaledImg = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
-		ImageIcon scaledIcon = new ImageIcon(scaledImg);
-		label.setIcon(scaledIcon);
 	}
 }
