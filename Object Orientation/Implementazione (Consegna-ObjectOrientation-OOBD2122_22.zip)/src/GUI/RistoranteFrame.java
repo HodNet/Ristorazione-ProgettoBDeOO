@@ -112,99 +112,18 @@ public class RistoranteFrame extends JFrame {
 		JTabbedPane centerPanel = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(centerPanel, BorderLayout.CENTER);
 		
-		JPanel dayHistogram = new JPanel();
+		HistogramPanel dayHistogram = new HistogramPanel(30, 477, 266);
 		dayHistogram.setBackground(Color.WHITE);
+		dayHistogram.add();
 		centerPanel.addTab("Clienti giornalieri", null, dayHistogram, null);
-		
-		JPanel monthHistogram = new JPanel();
+		HistogramPanel monthHistogram = new HistogramPanel(3, 477, 266, new String[]{"05/2022", "06/2022", "07/2022"}, new int[] {2, 34, 15});
 		monthHistogram.setBackground(Color.WHITE);
 		centerPanel.addTab("Clienti mensili", null, monthHistogram, null);
 		
-		JPanel yearHistogram = new JPanel();
+		HistogramPanel yearHistogram = new HistogramPanel(40, 477, 266);
 		yearHistogram.setBackground(Color.WHITE);
+		yearHistogram.add();
 		centerPanel.addTab("Clienti annuali", null, yearHistogram, null);
-		
-		createBlankHistogram(dayHistogram);
-		createBlankHistogram(monthHistogram);
-		createBlankHistogram(yearHistogram);
-	}
-	
-	private void addY(ParallelGroup parallel, SequentialGroup sequential, int i) {
-		JLabel axis = new JLabel(String.valueOf(i));
-		axis.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		parallel.addComponent(axis);
-		sequential.addComponent(axis, GroupLayout.PREFERRED_SIZE, (i%3==0 ? 14 : 12), Short.MAX_VALUE);
-	}
-	
-	private void addX(ParallelGroup parallel, SequentialGroup sequential, int i) {
-		JLabel axis = new JLabel(String.valueOf(i));
-		axis.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		if(i==1) {
-			JLabel gap = new JLabel("");
-			parallel.addComponent(gap);
-			sequential.addComponent(gap, GroupLayout.PREFERRED_SIZE, 5, Short.MAX_VALUE);
-		}
-		sequential.addComponent(axis, GroupLayout.PREFERRED_SIZE, 15, Short.MAX_VALUE);
-		parallel.addComponent(axis);
-	}
-	
-	private void createBlankHistogram(JPanel panelHistogram) {
-		final int axesWidth = 15;
-		final int axesHeight = 13;
-		final int histogramWidth = 477-axesWidth;
-		final int histogramHeight = 266-axesHeight;
-		histogram = new JLabel("");
-		histogram.setBounds(0, 0, histogramWidth, histogramHeight);
-		Controller.scaleImage(histogram, "blank histogram.png");
-		
-		GroupLayout gl = new GroupLayout(panelHistogram);
-		
-		ParallelGroup parallelY = gl.createParallelGroup(Alignment.LEADING);
-		SequentialGroup sequentialY = gl.createSequentialGroup();
-		for(int i=20; i>=0; i--) {
-			addY(parallelY, sequentialY, i);
-		}
-		
-		ParallelGroup parallelX = gl.createParallelGroup(Alignment.LEADING);
-		SequentialGroup sequentialX = gl.createSequentialGroup();
-		for(int i=1; i<=30; i++) {
-			addX(parallelX, sequentialX, i);
-		}
-		
-		gl.setHorizontalGroup(
-				gl.createSequentialGroup()
-				.addGroup(parallelY
-						//all yAxis
-						)
-				.addGroup(gl.createParallelGroup(Alignment.LEADING)
-						.addComponent(histogram, GroupLayout.PREFERRED_SIZE, histogramWidth, Short.MAX_VALUE)
-						.addGroup(sequentialX
-								//all xAxis
-								)
-						)
-		);
-		gl.setVerticalGroup(
-			gl.createSequentialGroup()
-			.addGroup(gl.createParallelGroup(Alignment.LEADING)
-					.addGroup(sequentialY
-							//all yAxis
-							)
-					.addComponent(histogram, GroupLayout.PREFERRED_SIZE, histogramHeight, Short.MAX_VALUE))
-			.addGroup(parallelX
-					//all xAxis
-					)
-		);
-		panelHistogram.setLayout(gl);
-		
-		panelHistogram.addComponentListener( new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				int w = ((Component)e.getSource()).getWidth();
-				int h = ((Component)e.getSource()).getHeight();
-				histogram.setBounds(axesWidth, 0, w-axesWidth, h-axesHeight);
-				Controller.scaleImage(histogram, "blank histogram.png");
-			}
-		});
 	}
 	
 	private void SouthPanel() {

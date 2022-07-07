@@ -31,7 +31,6 @@ public class Home extends JFrame {
 	public Home() {
 		setTitle("Tracciamento Covid-19 per ristoranti");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setBounds(x, y, width, height);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
