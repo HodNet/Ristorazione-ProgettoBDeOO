@@ -6,7 +6,10 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -26,6 +29,26 @@ public class Controller {
 	private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	public static final int screenWidth = (int) screenSize.getWidth();
 	public static final int screenHeight = (int) screenSize.getHeight();
+	
+	public static final String queryStatisticheAvventoriGiornalieri = 
+			  "SELECT codR, EXTRACT(DAY FROM dataDiArrivo) AS giorno, EXTRACT(MONTH FROM dataDiArrivo) AS mese, EXTRACT(YEAR FROM dataDiArrivo) AS anno,  dataDiArrivo, SUM(n°avventori) AS avventori_tot "
+			+ "FROM Ristorante NATURAL JOIN Sala NATURAL JOIN Tavolo NATURAL JOIN Tavolata "
+			+ "GROUP BY codR, dataDiArrivo ";
+	public static final String queryStatisticheAvventoriMensili = 
+			  "SELECT codR, EXTRACT(YEAR FROM dataDiArrivo) AS anno, EXTRACT(MONTH FROM dataDiArrivo) AS mese, SUM(n°avventori) AS avventori_tot "
+			+ "FROM Ristorante NATURAL JOIN Sala NATURAL JOIN Tavolo NATURAL JOIN Tavolata "
+			+ "GROUP BY codR, EXTRACT(YEAR FROM dataDiArrivo), EXTRACT(MONTH FROM dataDiArrivo) ";
+	public static final String queryStatisticheAvventoriAnnuali = 
+			  "SELECT codR, EXTRACT(YEAR FROM dataDiArrivo) AS anno, SUM(n°avventori) AS avventori_tot "
+			+ "FROM Ristorante NATURAL JOIN Sala NATURAL JOIN Tavolo NATURAL JOIN Tavolata "
+			+ "GROUP BY codR, EXTRACT(YEAR FROM dataDiArrivo) ";
+	public static ArrayList<String> dayHistogramBins;
+	public static ArrayList<Integer> dayHistogramFrequencies;
+	public static ArrayList<String> monthHistogramBins;
+	public static ArrayList<Integer> monthHistogramFrequencies;
+	public static ArrayList<String> yearHistogramBins;
+	public static ArrayList<Integer> yearHistogramFrequencies;
+	
 	
 	private static DBLogin DBlogin;
 	public static Home home;
@@ -154,6 +177,58 @@ public class Controller {
 		ristoranteFrame.setVisible(false);
 		ristoranteFrame = null;
 		home.setVisible(true);
+	}
+	
+	public static void calculateHistograms(Ristorante ristorante) {
+		dayHistogramBins = new ArrayList<String>();
+		dayHistogramFrequencies = new ArrayList<Integer>();
+		monthHistogramBins = new ArrayList<String>();
+		monthHistogramFrequencies = new ArrayList<Integer>();
+		yearHistogramBins = new ArrayList<String>();
+		yearHistogramFrequencies = new ArrayList<Integer>();
 		
+		String dayQuery = queryStatisticheAvventoriGiornalieri + " HAVING codR=" + String.valueOf(ristorante.getID()) + " ORDER BY dataDiArrivo ";
+		String monthQuery = queryStatisticheAvventoriMensili + " HAVING codR=" + String.valueOf(ristorante.getID()) + " ORDER BY EXTRACT(YEAR FROM dataDiArrivo), EXTRACT(MONTH FROM dataDiArrivo) ";
+		String yearQuery = queryStatisticheAvventoriAnnuali + " HAVING codR=" + String.valueOf(ristorante.getID()) + " ORDER BY EXTRACT(YEAR FROM dataDiArrivo) ";
+		
+		try {
+			Statement statement = DBConnector.getConnection().createStatement();
+			ResultSet table = statement.executeQuery(dayQuery);
+			while(table.next()) {
+				//dayHistogramBins.add(table.getString("dataDiArrivo"));
+				dayHistogramBins.add(table.getString("giorno") + "/" + table.getString("mese") + "/" + table.getString("anno"));
+				dayHistogramFrequencies.add(table.getInt("avventori_tot"));
+			}
+		} catch(SQLException exc) {
+			ErrorMessage error = new ErrorMessage(home, "Errore nel caricare l'istogramma degli avventori giornalieri");
+			error.setVisible(true);
+			exc.printStackTrace();
+		}
+		
+		try {
+			Statement statement = DBConnector.getConnection().createStatement();
+			ResultSet table = statement.executeQuery(monthQuery);
+			while(table.next()) {
+				monthHistogramBins.add(table.getString("mese") + "/" + table.getString("anno"));
+				monthHistogramFrequencies.add(table.getInt("avventori_tot"));
+			}
+		} catch(SQLException exc) {
+			ErrorMessage error = new ErrorMessage(home, "Errore nel caricare l'istogramma degli avventori mensili");
+			error.setVisible(true);
+			exc.printStackTrace();
+		}
+		
+		try {
+			Statement statement = DBConnector.getConnection().createStatement();
+			ResultSet table = statement.executeQuery(yearQuery);
+			while(table.next()) {
+				yearHistogramBins.add(table.getString("anno"));
+				yearHistogramFrequencies.add(table.getInt("avventori_tot"));
+			}
+		} catch(SQLException exc) {
+			ErrorMessage error = new ErrorMessage(home, "Errore nel caricare l'istogramma degli avventori annuali");
+			error.setVisible(true);
+			exc.printStackTrace();
+		}
 	}
 }

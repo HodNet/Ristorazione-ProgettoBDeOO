@@ -112,17 +112,18 @@ public class RistoranteFrame extends JFrame {
 		JTabbedPane centerPanel = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(centerPanel, BorderLayout.CENTER);
 		
-		HistogramPanel dayHistogram = new HistogramPanel(30, 477, 266);
+		Controller.calculateHistograms(ristorante);
+		
+		HistogramPanel dayHistogram = new HistogramPanel(477, 266, Controller.dayHistogramBins, Controller.dayHistogramFrequencies);
 		dayHistogram.setBackground(Color.WHITE);
-		dayHistogram.add();
 		centerPanel.addTab("Clienti giornalieri", null, dayHistogram, null);
-		HistogramPanel monthHistogram = new HistogramPanel(3, 477, 266, new String[]{"05/2022", "06/2022", "07/2022"}, new int[] {2, 34, 15});
+		
+		HistogramPanel monthHistogram = new HistogramPanel(477, 266, Controller.monthHistogramBins, Controller.monthHistogramFrequencies);
 		monthHistogram.setBackground(Color.WHITE);
 		centerPanel.addTab("Clienti mensili", null, monthHistogram, null);
 		
-		HistogramPanel yearHistogram = new HistogramPanel(40, 477, 266);
+		HistogramPanel yearHistogram = new HistogramPanel(477, 266, Controller.yearHistogramBins, Controller.yearHistogramFrequencies);
 		yearHistogram.setBackground(Color.WHITE);
-		yearHistogram.add();
 		centerPanel.addTab("Clienti annuali", null, yearHistogram, null);
 	}
 	
