@@ -43,7 +43,7 @@ public class RistoranteFrame extends JFrame {
 
 	public RistoranteFrame(Ristorante r) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setBounds(x, y, width, height);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -81,15 +81,11 @@ public class RistoranteFrame extends JFrame {
 		foto.setBounds(0, 0, 200, 150);
 		Controller.scaleImage(foto, ristorante.getFoto());
 		
-		String indirizzo = ristorante.getIndirizzo() + " " + ristorante.getNumeroCivico() + ", " + ristorante.getCittà() + "\n";
-		String orario = "Aperto dalle " + String.valueOf(ristorante.getOraapertura()) + " alle " + String.valueOf(ristorante.getOrachiusura()) + "\n";
-		String sale = String.valueOf(ristorante.getNumeroSale()) + " Sal" + (ristorante.getNumeroSale()==1 ? "a" : "e") + "\n";
-		
 		JTextArea infoRistoranteTextArea = new JTextArea();
 		infoRistoranteTextArea.setWrapStyleWord(true);
 		infoRistoranteTextArea.setLineWrap(true);
 		infoRistoranteTextArea.setEditable(false);
-		infoRistoranteTextArea.setText(indirizzo + orario + sale);
+		infoRistoranteTextArea.setText(Controller.getInfoOf(ristorante));
 		infoRistoranteTextArea.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		JScrollPane infoRistorante = new JScrollPane(infoRistoranteTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
@@ -114,15 +110,15 @@ public class RistoranteFrame extends JFrame {
 		
 		Controller.calculateHistograms(ristorante);
 		
-		HistogramPanel dayHistogram = new HistogramPanel(477, 266, Controller.dayHistogramBins, Controller.dayHistogramFrequencies);
+		HistogramPanel dayHistogram = new HistogramPanel(Controller.dayHistogramBins, Controller.dayHistogramFrequencies);
 		dayHistogram.setBackground(Color.WHITE);
 		centerPanel.addTab("Clienti giornalieri", null, dayHistogram, null);
 		
-		HistogramPanel monthHistogram = new HistogramPanel(477, 266, Controller.monthHistogramBins, Controller.monthHistogramFrequencies);
+		HistogramPanel monthHistogram = new HistogramPanel(Controller.monthHistogramBins, Controller.monthHistogramFrequencies);
 		monthHistogram.setBackground(Color.WHITE);
 		centerPanel.addTab("Clienti mensili", null, monthHistogram, null);
 		
-		HistogramPanel yearHistogram = new HistogramPanel(477, 266, Controller.yearHistogramBins, Controller.yearHistogramFrequencies);
+		HistogramPanel yearHistogram = new HistogramPanel(Controller.yearHistogramBins, Controller.yearHistogramFrequencies);
 		yearHistogram.setBackground(Color.WHITE);
 		centerPanel.addTab("Clienti annuali", null, yearHistogram, null);
 	}

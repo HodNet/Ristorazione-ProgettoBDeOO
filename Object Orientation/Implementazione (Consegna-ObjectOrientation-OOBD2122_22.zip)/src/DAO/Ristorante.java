@@ -6,7 +6,7 @@ public class Ristorante {
 	private String città; 
 	private String indirizzo; 
 	private String numeroCivico; 
-	private byte numeroSale; 
+	private byte numeroDiSale; 
 	private byte oraApertura = 20;
 	private byte oraChiusura = 22;
 	private String foto;
@@ -17,7 +17,7 @@ public class Ristorante {
 		this.città = città;
 		this.indirizzo = indirizzo;
 		this.numeroCivico = numeroCivico;
-		this.numeroSale = numeroSale;
+		this.numeroDiSale = numeroSale;
 		this.foto = nome + ID;
 	}
 	
@@ -27,7 +27,7 @@ public class Ristorante {
 		this.città = città;
 		this.indirizzo = indirizzo;
 		this.numeroCivico = numeroCivico;
-		this.numeroSale = numeroSale;
+		this.numeroDiSale = numeroSale;
 		this.foto = foto;
 	}
 	
@@ -67,8 +67,8 @@ public class Ristorante {
 		this.numeroCivico = numero_civico;
 	}
 	
-	public byte getNumeroSale() {
-		return numeroSale;
+	public byte getNumeroDiSale() {
+		return numeroDiSale;
 	}
 
 	public byte getOraapertura() {

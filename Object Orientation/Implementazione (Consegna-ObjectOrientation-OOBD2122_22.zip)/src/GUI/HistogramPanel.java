@@ -1,31 +1,72 @@
 package GUI;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout.ParallelGroup;
-import javax.swing.GroupLayout.SequentialGroup;
 
 import controller.Controller;
 
 public class HistogramPanel extends JPanel {
 	
+	private class Bin {
+		public JLabel title;
+		public JLabel background;
+		public JLabel rectangle;
+		public int frequency = 0;
+		
+		public Bin() {
+			title = new JLabel("");
+			title.setFont(new Font("Tahoma", Font.PLAIN, 10));
+			title.setHorizontalAlignment(SwingConstants.CENTER);
+			background = new JLabel("");
+			rectangle = new JLabel("");
+		}
+		
+		public Bin(int frequency) {
+			title = new JLabel("");
+			title.setFont(new Font("Tahoma", Font.PLAIN, 10));
+			title.setHorizontalAlignment(SwingConstants.CENTER);
+			background = new JLabel("");
+			rectangle = new JLabel("");
+			this.frequency = frequency;
+		}
+		
+		public Bin(String binValue) {
+			title = new JLabel(binValue);
+			title.setFont(new Font("Tahoma", Font.PLAIN, 10));
+			title.setHorizontalAlignment(SwingConstants.CENTER);
+			background = new JLabel("");
+			rectangle = new JLabel("");
+		}
+	}
+	
+	private class Frequency {
+		public JLabel title;
+		
+		public Frequency() {
+			title = new JLabel("");
+			title.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		}
+	}
+	
 	private static final int axisWidth = 15;
 	private static final int axisHeight = 13;
 	
 	private static final int numberOfFrequencies = 20;
-	private int numberOfBins = 2;
+	private int numberOfBins = 29;
 	
 	private static final int imageFrequencyAxisWidth = 29;
 	private static final int imageBinAxisHeight = 26;
@@ -39,15 +80,12 @@ public class HistogramPanel extends JPanel {
 	private int width = imageWidth;
 	private int height = imageHeight;
 	
-	private JLabel frequencyText[];
-	private JLabel binText[];
-	private JLabel frequencyAxis;
-	private JLabel blankBin[];
-	private JLabel binRect[];
+	private LinkedList<String> dataList;
+	private LinkedList<Bin> bins;
+	private LinkedList<Frequency> frequencies;
 	
-	private int frequency[];
+	private JLabel frequencyAxis;
 	private int maxFrequency = numberOfFrequencies;
-	private LinkedList<String> dataList = new LinkedList<String>();
 	
 	private GroupLayout gl;
 	
@@ -57,14 +95,18 @@ public class HistogramPanel extends JPanel {
 	 */
 	public HistogramPanel(int numberOfBins) {
 		Init(numberOfBins);
+		for(int i=0; i<numberOfBins; i++) bins.add(new Bin());
 		Resize(width, height);
-		createBlankHistogram();
+		addResizeListener();
+		createHistogram();
 	}
 	
 	public HistogramPanel(int numberOfBins, int width, int height) {
 		Init(numberOfBins);
+		for(int i=0; i<numberOfBins; i++) bins.add(new Bin());
 		Resize(width, height);
-		createBlankHistogram();
+		addResizeListener();
+		createHistogram();
 	}
 	
 	public HistogramPanel(int numberOfBins, int width, int height, String bin[]) {
@@ -78,23 +120,24 @@ public class HistogramPanel extends JPanel {
 		}
 
 		Resize(width, height);
-		createBlankHistogram();
+		addResizeListener();
+		createHistogram();
 	}
 	
 	public HistogramPanel(int numberOfBins, int width, int height, String bin[], int frequency[]) {
 		Init(numberOfBins);
 		
-		this.frequency = new int[numberOfBins];
 		for(int i=0; i<numberOfBins; i++) {
 			try {
 				dataList.add( new String(bin[i]) );
-				this.frequency[i] = frequency[i];
+				bins.add( new Bin(frequency[i]) );
 			}
 			catch(ArrayIndexOutOfBoundsException e) {}
 		}
 
 		Resize(width, height);
-		createBlankHistogram();
+		addResizeListener();
+		createHistogram();
 	}
 	
 	public HistogramPanel(int numberOfBins, String bin[]) {
@@ -108,23 +151,24 @@ public class HistogramPanel extends JPanel {
 		}
 
 		Resize(width, height);
-		createBlankHistogram();
+		addResizeListener();
+		createHistogram();
 	}
 	
 	public HistogramPanel(int numberOfBins, String bin[], int frequency[]) {
 		Init(numberOfBins);
 		
-		this.frequency = new int[numberOfBins];
 		for(int i=0; i<numberOfBins; i++) {
 			try {
 				dataList.add( new String(bin[i]) );
-				this.frequency[i] = frequency[i];
+				bins.add( new Bin(frequency[i]) );
 			}
 			catch(ArrayIndexOutOfBoundsException e) {}
 		}
 		
 		Resize(width, height);
-		createBlankHistogram();
+		addResizeListener();
+		createHistogram();
 	}
 	
 	public HistogramPanel(int width, int height, final ArrayList<String> bin) {
@@ -138,23 +182,24 @@ public class HistogramPanel extends JPanel {
 		}
 
 		Resize(width, height);
-		createBlankHistogram();
+		addResizeListener();
+		createHistogram();
 	}
 	
 	public HistogramPanel(int width, int height, final ArrayList<String> bin, final ArrayList<Integer> frequency) {
 		Init(bin.size());
 		
-		this.frequency = new int[numberOfBins];
 		for(int i=0; i<numberOfBins; i++) {
 			try {
 				dataList.add( new String(bin.get(i)) );
-				this.frequency[i] = frequency.get(i);
+				bins.add( new Bin(frequency.get(i)) );
 			}
 			catch(ArrayIndexOutOfBoundsException e) {}
 		}
 
 		Resize(width, height);
-		createBlankHistogram();
+		addResizeListener();
+		createHistogram();
 	}
 	
 	public HistogramPanel(final ArrayList<String> bin) {
@@ -168,23 +213,24 @@ public class HistogramPanel extends JPanel {
 		}
 
 		Resize(width, height);
-		createBlankHistogram();
+		addResizeListener();
+		createHistogram();
 	}
 	
 	public HistogramPanel(final ArrayList<String> bin, final ArrayList<Integer> frequency) {
 		Init(bin.size());
 		
-		this.frequency = new int[numberOfBins];
 		for(int i=0; i<numberOfBins; i++) {
 			try {
 				dataList.add( new String(bin.get(i)) );
-				this.frequency[i] = frequency.get(i);
+				bins.add( new Bin(frequency.get(i)) );
 			}
 			catch(ArrayIndexOutOfBoundsException e) {}
 		}
 		
 		Resize(width, height);
-		createBlankHistogram();
+		addResizeListener();
+		createHistogram();
 	}
 	
 	/*
@@ -194,10 +240,17 @@ public class HistogramPanel extends JPanel {
 	public void add(String data) {
 		if( !dataList.contains(data) ) {
 			dataList.add(data);
-			binText[dataList.indexOf(data)].setText(data);
+			int index = dataList.size()-1;
+			if(index < bins.size())
+				bins.get(index).title.setText(data);
+			else {
+				numberOfBins++;
+				bins.add(new Bin(data));
+			}
 		}
-		frequency[dataList.indexOf(data)]++;
+		bins.get(dataList.indexOf(data)).frequency++;
 		update();
+		createHistogram();
 	}
 	
 	/*
@@ -207,17 +260,14 @@ public class HistogramPanel extends JPanel {
 	private void Init(int numberOfBins) {
 		this.numberOfBins = numberOfBins;
 		
-		frequencyText = new JLabel[numberOfFrequencies+1]; //uno in più per lo zero
-		binText = new JLabel[numberOfBins];
-		frequencyAxis = new JLabel("");
-		blankBin = new JLabel[numberOfBins];
-		binRect = new JLabel[numberOfBins];
-		frequency = new int[numberOfBins];
+		dataList = new LinkedList<String>();
+		bins = new LinkedList<Bin>();
+		frequencies = new LinkedList<Frequency>();
 		
-		for(int i=0; i<numberOfBins; i++) {
-			blankBin[i] = new JLabel("");
-			binRect[i] = new JLabel("");
-			frequency[i] = 0;
+		frequencyAxis = new JLabel("");
+		
+		for(int i=0; i<numberOfFrequencies + 1; i++) { //uno in più per lo zero
+			frequencies.add(new Frequency());
 		}
 	}
 	
@@ -227,30 +277,32 @@ public class HistogramPanel extends JPanel {
 		frequencyAxisWidth = imageFrequencyAxisWidth * width/imageWidth;
 		binAxisHeight = imageBinAxisHeight * height/imageHeight;
 		binWidth = imageBinWidth * width/imageWidth * 30/numberOfBins;
-		if(binText[0]!=null) binWidth = Integer.max(binWidth, maxWidth(binText, numberOfBins));
+		binWidth = Integer.max(binWidth, maxBinTitleWidth());
 		this.width = frequencyAxisWidth + binWidth*numberOfBins;
 		this.height = height;
 		
 		frequencyAxis.setBounds(axisWidth, 0, frequencyAxisWidth, this.height);
 		scaleImage(frequencyAxis, "histogram frequency axis.jpg");
 		
-		for(int i=0; i<numberOfBins; i++) {
-			blankBin[i].setBounds(axisWidth + frequencyAxisWidth + i*binWidth, 0, binWidth, this.height);
-			scaleImage(blankBin[i], "histogram blank bin.jpg");
+		int i=0;
+		for(Bin bin : bins) {
+			bin.background.setBounds(axisWidth + frequencyAxisWidth + i*binWidth, 0, binWidth, this.height);
+			scaleImage(bin.background, "histogram blank bin.jpg");
+			i++;
 		}
 		
 		update();
 	}
 	
-	private int maxWidth(JLabel label[], int length) {
-		int ret = 0;
-		for(int i=0; i<length; i++) {
-			ret = Integer.max(ret, label[i].getWidth());
+	private int maxBinTitleWidth() {
+		int max = 0;
+		for(Bin bin : bins) {
+			max = Integer.max(max, bin.title.getWidth());
 		}
-		return ret;
+		return max;
 	}
 	
-	private void createBlankHistogram() {
+	private void addResizeListener() {
 		addComponentListener( new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -259,20 +311,26 @@ public class HistogramPanel extends JPanel {
 				Resize(w, h);
 			}
 		});
-		
+	}
+	
+	private void createHistogram() {
 		gl = new GroupLayout(this);
 		
 		ParallelGroup parallelY = gl.createParallelGroup(Alignment.LEADING);
 		SequentialGroup sequentialY = gl.createSequentialGroup();
-		for(int i=numberOfFrequencies; i>=0; i--) {
-			addFrequency(parallelY, sequentialY, i);
+		int i=numberOfFrequencies;
+		for(Frequency frequency : frequencies) {
+			addFrequency(parallelY, sequentialY, i, frequency);
+			i--;
 		}
 		
 		ParallelGroup parallelX = gl.createParallelGroup(Alignment.LEADING);
 		SequentialGroup sequentialXandBins = gl.createSequentialGroup();
 		ParallelGroup parallelBins = gl.createParallelGroup(Alignment.TRAILING);
-		for(int i=0; i<numberOfBins; i++) {
-			addBin(parallelX, sequentialXandBins, parallelBins, i);
+		i=0;
+		for(Bin bin : bins) {
+			addBin(parallelX, sequentialXandBins, parallelBins, i, bin);
+			i++;
 		}
 		
 		gl.setHorizontalGroup(
@@ -292,50 +350,52 @@ public class HistogramPanel extends JPanel {
 		setLayout(gl);
 	}
 	
-	private void addFrequency(ParallelGroup parallel, SequentialGroup sequential, int i) {
+	private void addFrequency(ParallelGroup parallel, SequentialGroup sequential, int i, Frequency frequency) {
 		int frequencyValue = (i==numberOfFrequencies) ? (maxFrequency) : (i * maxFrequency/numberOfFrequencies);
-		frequencyText[i] = new JLabel(String.valueOf(frequencyValue));
-		frequencyText[i].setFont(new Font("Tahoma", Font.PLAIN, 10));
-		parallel.addComponent(frequencyText[i]);
-		sequential.addComponent(frequencyText[i], GroupLayout.PREFERRED_SIZE, (i%3==0 ? 14 : 12), Short.MAX_VALUE);
+		frequency.title.setText(String.valueOf(frequencyValue));
+		parallel.addComponent(frequency.title);
+		sequential.addComponent(frequency.title, GroupLayout.PREFERRED_SIZE, (i%3==0 ? 14 : 12), Short.MAX_VALUE);
 	}
 	
-	private void addBin(ParallelGroup parallelX, SequentialGroup sequential, ParallelGroup parallelBins, int i) {
-		String bin = (i >= dataList.size()) ? "" : dataList.get(i);
-		binText[i] = new JLabel(bin);
-		binText[i].setFont(new Font("Tahoma", Font.PLAIN, 10));
-		binText[i].setHorizontalAlignment(SwingConstants.CENTER);
+	private void addBin(ParallelGroup parallelX, SequentialGroup sequential, ParallelGroup parallelBins, int i, Bin bin) {
+		if(i < dataList.size()) {
+			bin.title.setText(dataList.get(i));
+		}
 		
 		sequential.addGroup(gl.createParallelGroup(Alignment.LEADING)
-				.addComponent(binRect[i])
-				.addComponent(blankBin[i])
-				.addComponent(binText[i]));
-		parallelBins.addComponent(binRect[i]);
-		parallelBins.addComponent(blankBin[i]);
-		parallelX.addComponent(binText[i]);
+				.addComponent(bin.rectangle)
+				.addComponent(bin.background)
+				.addComponent(bin.title));
+		parallelBins.addComponent(bin.rectangle);
+		parallelBins.addComponent(bin.background);
+		parallelX.addComponent(bin.title);
 	}
 	
 	private void update() {
 		int gap = 2;
 		int topBorderHeight = imageTopBorderHeight * height/imageHeight;
 		
-		int max = max(frequency);
+		int max = maxFrequency();
 		if(max>numberOfFrequencies) {
-			maxFrequency = generateNextMultipleOfNumberOfFrequenciesOf(max);
+			maxFrequency = generateNextMultipleOf_NumberOfFrequencies_Of(max);
 		}
 		
 		for(int i=0; i<numberOfBins; i++) {
-			int binHeight = (height-binAxisHeight-topBorderHeight) * frequency[i]/maxFrequency;
-			binRect[i].setBounds(axisWidth + frequencyAxisWidth + i*binWidth, 0, binWidth-gap, binAxisHeight + binHeight);
-			scaleImage(binRect[i], "rectangle selected.jpg");
+			int binHeight = (height-binAxisHeight-topBorderHeight) * bins.get(i).frequency / maxFrequency;
+			bins.get(i).rectangle.setBounds(axisWidth + frequencyAxisWidth + i*binWidth, 0, binWidth-gap, binAxisHeight + binHeight);
+			scaleImage(bins.get(i).rectangle, "rectangle selected.jpg");
 		}
 	}
 	
-	private int max(int n[]) {
-		return Arrays.stream(n).max().getAsInt();
+	private int maxFrequency() {
+		int max = 0;
+		for(Bin bin : bins) {
+			max = Integer.max(max, bin.frequency);
+		}
+		return max;
 	}
 	
-	private int generateNextMultipleOfNumberOfFrequenciesOf(int n) {
+	private int generateNextMultipleOf_NumberOfFrequencies_Of(int n) {
 		return numberOfFrequencies * (int)Math.ceil( (double)n / (double)numberOfFrequencies );
 	}
 	

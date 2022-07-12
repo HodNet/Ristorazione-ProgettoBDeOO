@@ -31,6 +31,7 @@ public class Home extends JFrame {
 	public Home() {
 		setTitle("Tracciamento Covid-19 per ristoranti");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setBounds(x, y, width, height);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -63,7 +64,7 @@ public class Home extends JFrame {
 			orarioRistorante.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			panel.add(orarioRistorante);
 			
-			JLabel numeroSaleRistorante = new JLabel(String.valueOf(ristorante.getNumeroSale()) + " Sal" + (ristorante.getNumeroSale()==1 ? "a" : "e"));
+			JLabel numeroSaleRistorante = new JLabel(String.valueOf(ristorante.getNumeroDiSale()) + " Sal" + (ristorante.getNumeroDiSale()==1 ? "a" : "e"));
 			numeroSaleRistorante.setBounds(140, 75+scrollHeight, 200, 25);
 			numeroSaleRistorante.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			panel.add(numeroSaleRistorante);

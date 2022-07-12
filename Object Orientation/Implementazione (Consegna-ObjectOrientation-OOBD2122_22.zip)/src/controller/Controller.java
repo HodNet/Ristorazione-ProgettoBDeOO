@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 
 import DAO.Ristorante;
 import DAO.RistoranteDAO;
+import DAO.Sala;
+import DAO.SalaDAO;
 import GUI.DBLogin;
 import GUI.ErrorMessage;
 import GUI.Home;
@@ -55,6 +57,7 @@ public class Controller {
 	public static RistoranteFrame ristoranteFrame;
 	
 	public static RistoranteDAO ristoranteDAO;
+	public static SalaDAO salaDAO;
 	
 	public static void main(String[] args) {
 		DBlogin = new DBLogin();
@@ -136,6 +139,7 @@ public class Controller {
 				saveAllIntoFile();
 			try {
 				ristoranteDAO = new RistoranteDAO(DBConnector.getConnection());
+				salaDAO = new SalaDAO(DBConnector.getConnection());
 			} catch(SQLException exc) {
 				ErrorMessage error = new ErrorMessage(DBlogin, "Errore nel cercare di estrarre i dati dal database");
 				error.setVisible(true);
@@ -177,6 +181,19 @@ public class Controller {
 		ristoranteFrame.setVisible(false);
 		ristoranteFrame = null;
 		home.setVisible(true);
+	}
+	
+	public static String getInfoOf(Ristorante ristorante) {
+		String indirizzo = ristorante.getIndirizzo() + " " + ristorante.getNumeroCivico() + ", " + ristorante.getCittà() + "\n";
+		String orario = "Aperto dalle " + String.valueOf(ristorante.getOraapertura()) + " alle " + String.valueOf(ristorante.getOrachiusura()) + "\n";
+		String sale = "\n" + String.valueOf(ristorante.getNumeroDiSale()) + " Sal" + (ristorante.getNumeroDiSale()==1 ? "a" : "e") + "\n";
+		String info = indirizzo + orario + sale;
+		
+		for(Sala sala : salaDAO.getAllOf(ristorante)) {
+			info = info + "Sala " + sala.getID() + ": " + sala.getNumeroDiTavoli() + " tavoli\n";
+		}
+		
+		return info;
 	}
 	
 	public static void calculateHistograms(Ristorante ristorante) {

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class RistoranteDAO implements DAO<Ristorante> {
 
-	private LinkedList<Ristorante> ristoranti = null;
+	private LinkedList<Ristorante> ristoranti;
 	private String query;
 	private Statement statement;
 	private ResultSet table;
@@ -43,19 +43,19 @@ public class RistoranteDAO implements DAO<Ristorante> {
 		return ristoranti;
 	}
 	
-	@Override
-	public void insert(Ristorante ristorante) {
-		
-	}
-	
-	public void update(String ID, String nome, String città, String indirizzo, String numeroCivico) {
-		
-	}
-    
-	@Override
-    public void delete(Ristorante ristorante) {
-    	
-    }
+//	@Override
+//	public void insert(Ristorante ristorante) {
+//		//TODO
+//	}
+//	
+//	public void update(String ID, String nome, String città, String indirizzo, String numeroCivico) {
+//		//TODO
+//	}
+//    
+//	@Override
+//    public void delete(Ristorante ristorante) {
+//    	//TODO
+//   }
 	
 	public int getNumeroRistoranti() {
 		return ristoranti.size();
