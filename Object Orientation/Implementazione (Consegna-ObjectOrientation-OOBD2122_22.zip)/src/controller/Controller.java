@@ -146,8 +146,8 @@ public class Controller {
 				exc.printStackTrace();
 			}
 			home = new Home();
-			DBlogin.setVisible(false);
 			home.setVisible(true);
+			DBlogin.setVisible(false);
 		} catch(ClassNotFoundException exc) {
 			ErrorMessage error = new ErrorMessage(DBlogin, "Error in connecting to PostgreSQL server");
 			error.setVisible(true);
@@ -169,8 +169,8 @@ public class Controller {
 	 */
 	public static void goToRistoranteFrame(Ristorante ristoranteScelto) {
 		ristoranteFrame = new RistoranteFrame(ristoranteScelto);
-		home.setVisible(false);
 		ristoranteFrame.setVisible(true);
+		home.setVisible(false);
 	}
 	
 	/*
@@ -178,9 +178,9 @@ public class Controller {
 	 * 
 	 */
 	public static void backToHome() {
+		home.setVisible(true);
 		ristoranteFrame.setVisible(false);
 		ristoranteFrame = null;
-		home.setVisible(true);
 	}
 	
 	public static String getInfoOf(Ristorante ristorante) {

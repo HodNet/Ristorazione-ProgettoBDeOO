@@ -1929,7 +1929,7 @@
 											"top": 95,
 											"width": 158,
 											"height": 13,
-											"text": "personale"
+											"text": "cameriere"
 										},
 										{
 											"_type": "LabelView",
@@ -1996,6 +1996,7 @@
 											"model": {
 												"$ref": "AAAAAAF+fBGLhqpc+I0="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 613,
 											"top": 118,
@@ -2009,7 +2010,7 @@
 									"left": 608,
 									"top": 113,
 									"width": 168,
-									"height": 23
+									"height": 10
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -2022,7 +2023,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 608,
-									"top": 136,
+									"top": 123,
 									"width": 168,
 									"height": 10
 								},
@@ -3047,275 +3048,6 @@
 							}
 						},
 						{
-							"_type": "UMLEnumerationView",
-							"_id": "AAAAAAF+fBD2WKlv12Q=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"model": {
-								"$ref": "AAAAAAF+fBD2V6ltOqQ="
-							},
-							"subViews": [
-								{
-									"_type": "UMLNameCompartmentView",
-									"_id": "AAAAAAF+fBD2WKlwMGY=",
-									"_parent": {
-										"$ref": "AAAAAAF+fBD2WKlv12Q="
-									},
-									"model": {
-										"$ref": "AAAAAAF+fBD2V6ltOqQ="
-									},
-									"subViews": [
-										{
-											"_type": "LabelView",
-											"_id": "AAAAAAF+fBD2WKlxZRo=",
-											"_parent": {
-												"$ref": "AAAAAAF+fBD2WKlwMGY="
-											},
-											"font": "Arial;13;0",
-											"left": 389,
-											"top": 101,
-											"width": 126,
-											"height": 13,
-											"text": "«enumeration»"
-										},
-										{
-											"_type": "LabelView",
-											"_id": "AAAAAAF+fBD2WKlyyho=",
-											"_parent": {
-												"$ref": "AAAAAAF+fBD2WKlwMGY="
-											},
-											"font": "Arial;13;1",
-											"left": 389,
-											"top": 116,
-											"width": 126,
-											"height": 13,
-											"text": "Ruolo"
-										},
-										{
-											"_type": "LabelView",
-											"_id": "AAAAAAF+fBD2WKlzJpw=",
-											"_parent": {
-												"$ref": "AAAAAAF+fBD2WKlwMGY="
-											},
-											"visible": false,
-											"font": "Arial;13;0",
-											"left": 304,
-											"top": 32,
-											"width": 73.67724609375,
-											"height": 13,
-											"text": "(from Model)"
-										},
-										{
-											"_type": "LabelView",
-											"_id": "AAAAAAF+fBD2WKl0dyU=",
-											"_parent": {
-												"$ref": "AAAAAAF+fBD2WKlwMGY="
-											},
-											"visible": false,
-											"font": "Arial;13;0",
-											"left": 304,
-											"top": 32,
-											"height": 13,
-											"horizontalAlignment": 1
-										}
-									],
-									"font": "Arial;13;0",
-									"left": 384,
-									"top": 96,
-									"width": 136,
-									"height": 38,
-									"stereotypeLabel": {
-										"$ref": "AAAAAAF+fBD2WKlxZRo="
-									},
-									"nameLabel": {
-										"$ref": "AAAAAAF+fBD2WKlyyho="
-									},
-									"namespaceLabel": {
-										"$ref": "AAAAAAF+fBD2WKlzJpw="
-									},
-									"propertyLabel": {
-										"$ref": "AAAAAAF+fBD2WKl0dyU="
-									}
-								},
-								{
-									"_type": "UMLAttributeCompartmentView",
-									"_id": "AAAAAAF+fBD2WKl1nPU=",
-									"_parent": {
-										"$ref": "AAAAAAF+fBD2WKlv12Q="
-									},
-									"model": {
-										"$ref": "AAAAAAF+fBD2V6ltOqQ="
-									},
-									"visible": false,
-									"font": "Arial;13;0",
-									"left": 152,
-									"top": 16,
-									"width": 10,
-									"height": 10
-								},
-								{
-									"_type": "UMLOperationCompartmentView",
-									"_id": "AAAAAAF+fBD2WKl2hZc=",
-									"_parent": {
-										"$ref": "AAAAAAF+fBD2WKlv12Q="
-									},
-									"model": {
-										"$ref": "AAAAAAF+fBD2V6ltOqQ="
-									},
-									"visible": false,
-									"font": "Arial;13;0",
-									"left": 152,
-									"top": 16,
-									"width": 10,
-									"height": 10
-								},
-								{
-									"_type": "UMLReceptionCompartmentView",
-									"_id": "AAAAAAF+fBD2Wal3cXU=",
-									"_parent": {
-										"$ref": "AAAAAAF+fBD2WKlv12Q="
-									},
-									"model": {
-										"$ref": "AAAAAAF+fBD2V6ltOqQ="
-									},
-									"visible": false,
-									"font": "Arial;13;0",
-									"left": 152,
-									"top": 16,
-									"width": 10,
-									"height": 10
-								},
-								{
-									"_type": "UMLTemplateParameterCompartmentView",
-									"_id": "AAAAAAF+fBD2Wal4hRM=",
-									"_parent": {
-										"$ref": "AAAAAAF+fBD2WKlv12Q="
-									},
-									"model": {
-										"$ref": "AAAAAAF+fBD2V6ltOqQ="
-									},
-									"visible": false,
-									"font": "Arial;13;0",
-									"left": 152,
-									"top": 16,
-									"width": 10,
-									"height": 10
-								},
-								{
-									"_type": "UMLEnumerationLiteralCompartmentView",
-									"_id": "AAAAAAF+fBD2Wal5ETs=",
-									"_parent": {
-										"$ref": "AAAAAAF+fBD2WKlv12Q="
-									},
-									"model": {
-										"$ref": "AAAAAAF+fBD2V6ltOqQ="
-									},
-									"subViews": [
-										{
-											"_type": "UMLEnumerationLiteralView",
-											"_id": "AAAAAAF+fBMLgKuUOI8=",
-											"_parent": {
-												"$ref": "AAAAAAF+fBD2Wal5ETs="
-											},
-											"model": {
-												"$ref": "AAAAAAF+fBMLc6uFxBE="
-											},
-											"font": "Arial;13;0",
-											"left": 389,
-											"top": 139,
-											"width": 126,
-											"height": 13,
-											"text": "cameriere",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLEnumerationLiteralView",
-											"_id": "AAAAAAF+fBMr9Kvv9i0=",
-											"_parent": {
-												"$ref": "AAAAAAF+fBD2Wal5ETs="
-											},
-											"model": {
-												"$ref": "AAAAAAF+fBMr6qvgUZ4="
-											},
-											"font": "Arial;13;0",
-											"left": 389,
-											"top": 154,
-											"width": 126,
-											"height": 13,
-											"text": "cuoco",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLEnumerationLiteralView",
-											"_id": "AAAAAAF+fBOIRqzaLC8=",
-											"_parent": {
-												"$ref": "AAAAAAF+fBD2Wal5ETs="
-											},
-											"model": {
-												"$ref": "AAAAAAF+fBOIPqzLxMY="
-											},
-											"font": "Arial;13;0",
-											"left": 389,
-											"top": 169,
-											"width": 126,
-											"height": 13,
-											"text": "direttore",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLEnumerationLiteralView",
-											"_id": "AAAAAAF+gdfFF1TH5j8=",
-											"_parent": {
-												"$ref": "AAAAAAF+fBD2Wal5ETs="
-											},
-											"model": {
-												"$ref": "AAAAAAF+gdfE9lS4cEw="
-											},
-											"font": "Arial;13;0",
-											"left": 389,
-											"top": 184,
-											"width": 126,
-											"height": 13,
-											"text": "cassiere",
-											"horizontalAlignment": 0
-										}
-									],
-									"font": "Arial;13;0",
-									"left": 384,
-									"top": 134,
-									"width": 136,
-									"height": 68
-								}
-							],
-							"font": "Arial;13;0",
-							"containerChangeable": true,
-							"left": 384,
-							"top": 96,
-							"width": 136,
-							"height": 144,
-							"nameCompartment": {
-								"$ref": "AAAAAAF+fBD2WKlwMGY="
-							},
-							"suppressAttributes": true,
-							"suppressOperations": true,
-							"attributeCompartment": {
-								"$ref": "AAAAAAF+fBD2WKl1nPU="
-							},
-							"operationCompartment": {
-								"$ref": "AAAAAAF+fBD2WKl2hZc="
-							},
-							"receptionCompartment": {
-								"$ref": "AAAAAAF+fBD2Wal3cXU="
-							},
-							"templateParameterCompartment": {
-								"$ref": "AAAAAAF+fBD2Wal4hRM="
-							},
-							"enumerationLiteralCompartment": {
-								"$ref": "AAAAAAF+fBD2Wal5ETs="
-							}
-						},
-						{
 							"_type": "UMLAssociationView",
 							"_id": "AAAAAAF+fDwKOsfUAvM=",
 							"_parent": {
@@ -3589,38 +3321,6 @@
 							"headQualifiersCompartment": {
 								"$ref": "AAAAAAF+fDwKO8ff3cc="
 							}
-						},
-						{
-							"_type": "UMLConstraintView",
-							"_id": "AAAAAAF+fF1dKezcicI=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"model": {
-								"$ref": "AAAAAAF+fFzYaeyMN10="
-							},
-							"font": "Arial;13;0",
-							"left": 720,
-							"top": 336,
-							"width": 145,
-							"height": 145,
-							"text": "{Vincolo associazione :       \n                                          \nUna tavolata è servita da del personale solo se il ruolo del personale è \"cameriere\".}"
-						},
-						{
-							"_type": "UMLConstraintLinkView",
-							"_id": "AAAAAAF+fF1dKuzdBtc=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Arial;13;0",
-							"head": {
-								"$ref": "AAAAAAF9r9TBQp3dEPo="
-							},
-							"tail": {
-								"$ref": "AAAAAAF+fF1dKezcicI="
-							},
-							"lineStyle": 1,
-							"points": "719:404;691:403"
 						},
 						{
 							"_type": "UMLConstraintView",
@@ -4277,7 +3977,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "personale",
+					"name": "cameriere",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",

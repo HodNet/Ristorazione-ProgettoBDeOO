@@ -4,9 +4,10 @@ DROP TABLE IF EXISTS Tavolo CASCADE;
 DROP TABLE IF EXISTS TavoliAdiacenti CASCADE;
 DROP TABLE IF EXISTS Tavolata CASCADE;
 DROP TABLE IF EXISTS Avventore CASCADE;
-DROP TABLE IF EXISTS Incarico CASCADE;
-DROP TABLE IF EXISTS Personale CASCADE;
+DROP TABLE IF EXISTS Clientela CASCADE;
+DROP TABLE IF EXISTS Cameriere CASCADE;
 DROP TABLE IF EXISTS Servizio CASCADE;
+DROP TYPE IF EXISTS genere;
 
 CREATE TABLE Ristorante
 (
@@ -57,20 +58,45 @@ CREATE TABLE Tavolata
 
 CREATE TABLE Avventore
 (
-	
+	codCartaIdentità VARCHAR(12) PRIMARY KEY,
+	nome VARCHAR(50) NOT NULL, 
+	cognome VARCHAR(50) NOT NULL, 
+	n°telefono VARCHAR(15),
+	UNIQUE(n°telefono) --Ogni persona ha un numero di telefono diverso
 );
 
-CREATE TABLE Incarico
+CREATE TABLE Clientela
 (
-	
+	codCartaIdentità VARCHAR(12) NOT NULL,
+	dataDiArrivo date NOT NULL,
+	codT integer NOT NULL,
+	FOREIGN KEY(CodCartaIdentità) REFERENCES Avventore(codCartaIdentità)
 );
 
-CREATE TABLE Personale
+CREATE TYPE genere AS ENUM('maschio', 'femmina');
+
+CREATE TABLE Cameriere
 (
-	
+	codCartaIdentità VARCHAR(12) PRIMARY KEY,
+	nome VARCHAR(50) NOT NULL, 
+	cognome VARCHAR(50) NOT NULL,
+	n°telefono VARCHAR(15) NOT NULL,
+	dataDiNascita date NOT NULL,
+	indirizzo VARCHAR(100),
+	n°civico VARCHAR(5),
+	sesso genere,
+	codR integer NOT NULL,
+	FOREIGN KEY(codR) REFERENCES Ristorante(codR),
+	UNIQUE(n°telefono)
 );
 
 CREATE TABLE Servizio
 (
-	
+	codCameriere VARCHAR(12) NOT NULL,
+	dataDiArrivo date NOT NULL,
+	codT integer NOT NULL,
+	FOREIGN KEY(codCameriere) REFERENCES Cameriere(codCartaIdentità),
+	FOREIGN KEY(dataDiArrivo, codT) REFERENCES Tavolata(dataDiArrivo, codT)
 );
+
+--SPOSTA ROBE NELLA DOCUMENTAZIONE AL POSTO DEI COMMENTI CHE CI SONO QUI
