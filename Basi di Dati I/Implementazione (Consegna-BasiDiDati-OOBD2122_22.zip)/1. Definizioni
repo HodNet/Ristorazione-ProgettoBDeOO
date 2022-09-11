@@ -73,7 +73,7 @@ CREATE TABLE Clientela
 	FOREIGN KEY(CodCartaIdentità) REFERENCES Avventore(codCartaIdentità)
 );
 
-CREATE TYPE genere AS ENUM('maschio', 'femmina');
+CREATE TYPE genere AS ENUM('M', 'F');
 
 CREATE TABLE Cameriere
 (
@@ -82,6 +82,7 @@ CREATE TABLE Cameriere
 	cognome VARCHAR(50) NOT NULL,
 	n°telefono VARCHAR(15) NOT NULL,
 	dataDiNascita date NOT NULL,
+	città VARCHAR(50),
 	indirizzo VARCHAR(100),
 	n°civico VARCHAR(5),
 	sesso genere,
@@ -98,5 +99,3 @@ CREATE TABLE Servizio
 	FOREIGN KEY(codCameriere) REFERENCES Cameriere(codCartaIdentità),
 	FOREIGN KEY(dataDiArrivo, codT) REFERENCES Tavolata(dataDiArrivo, codT)
 );
-
---SPOSTA ROBE NELLA DOCUMENTAZIONE AL POSTO DEI COMMENTI CHE CI SONO QUI

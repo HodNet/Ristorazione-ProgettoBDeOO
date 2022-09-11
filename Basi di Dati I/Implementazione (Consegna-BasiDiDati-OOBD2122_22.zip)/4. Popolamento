@@ -297,9 +297,35 @@ VALUES ('VS17309328', '2022-01-29', 21), ('LY30989895', '2022-01-29', 21),
 	   ('MS71883296', CURRENT_DATE, 59), ('IV34269175', CURRENT_DATE, 59),
 	   ('SO21993903', CURRENT_DATE, 59);
 	   
+
+INSERT INTO Cameriere(codCartaIdentità, nome, cognome, n°telefono, dataDiNascita, città, indirizzo, n°civico, sesso, codR)
+VALUES ('UO44269105', 'Alfredo', 'Trevisani', '+39 387 3304080', '1994-01-01', 'Napoli', 'Via dell Epomeo', '78', 'M', 1),
+	   ('ZE64880029', 'Edoardo', 'Davide', '+39 329 8783744', '1994-03-02', 'Napoli', 'Via Pigna', '100', 'M', 1),
+	   ('AW12022272', 'Ida', 'Udinese', '+39 325 7506602', '1974-09-12', 'Napoli', 'Via Alessandro Scarlatti', '15', 'F', 1),
+	   ('MH78945681', 'Filippa', 'Conti', '+39 342 3371498', '1990-01-13', 'Napoli', 'Via Francesco Cilea', '28', 'F', 1),
+	   ('DI55273390', 'Renato', 'Bergamaschi', '+39 379 2583848', '1996-04-09', 'Napoli', 'Via Nuova Toscanella', '53', 'M', 1),
+	   ('HW66976063', 'Massimo', 'Capon', '+39 379 4905589', '2005-09-16', 'Napoli', 'Via Raffaele Morghen', '67', 'M', 1),
 	   
+	   ('DT82174687', 'Guido', 'Trentini', '+39 328 5630676', '1996-12-10', 'Napoli', 'Via Simone Martini', '76', 'M', 2),
 	   
+	   ('IM80469379', 'Rachele', 'Ferri', '+39 359 6377870', '2005-05-31', 'Milano', 'Via Orefici', '2', 'F', 3),
+	   ('MT13618721', 'Siro', 'Gallo', '+39 388 2606880', '2002-02-26', 'Milano', 'Via Torino', '13', 'M', 3),
+	   ('BZ56299653', 'Rodrigo', 'Milanesi', '+39 354 6516619', '2001-03-21', 'Milano', 'Via Meravigli', '24', 'M', 3),
+	   ('IG69475497', 'Gustavo', 'Capon', '+39 320 5398801', '1998-03-03', 'Milano', 'Via Adalberto Catena', '10', 'M', 3),
+	   ('UU4311580', 'Marcella', 'Trevisani', '+39 364 0917078', '1979-09-06', 'Milano', 'Via Agnello', '30', 'F', 3),
+	   ('KT43140540', 'Agata', 'Beneventi', '+39 376 1048554', '1995-04-26', 'Milano', 'Via Antonio Panizzi', '68', 'F', 3),
+	   ('EB99238228', 'Albano', 'Colombo', '+39 395 2410660', '2004-03-03', 'Milano', 'Via Privata Belgirate', '33', 'M', 3);
 	   
-	   
+INSERT INTO Servizio(dataDiArrivo, codCameriere, codT)
+VALUES ('2022-01-29', 'DT82174687', 21), ('2022-04-16', 'UO44269105', 19), ('2019-03-22', 'IM80469379', 50),
+	   ('2022-03-19', 'MT13618721', 67), ('2015-12-04', 'BZ56299653', 45), ('2019-09-10', 'IG69475497', 61),
+	   ('2022-01-29', 'UU4311580', 58), ('2022-04-16', 'KT43140540', 48), ('2019-03-22', 'ZE64880029', 1),
+	   ('2022-03-20', 'EB99238228', 67), ('2015-12-04', 'AW12022272', 10), ('2019-09-10', 'DT82174687', 22),
+	   (CURRENT_DATE, 'UO44269105', 1), (CURRENT_DATE, 'AW12022272', 3), (CURRENT_DATE, 'AW12022272', 4),
+	   (CURRENT_DATE, 'MH78945681', 5), (CURRENT_DATE, 'DI55273390', 8), (CURRENT_DATE, 'MH78945681', 9),
+	   (CURRENT_DATE, 'MH78945681', 12), (CURRENT_DATE, 'UO44269105', 14), (CURRENT_DATE, 'UO44269105', 15), 
+	   (CURRENT_DATE, 'AW12022272', 18), (CURRENT_DATE, 'DI55273390', 19), (CURRENT_DATE, 'DI55273390', 20), 
+	   (CURRENT_DATE, 'DT82174687', 21), (CURRENT_DATE, 'DT82174687', 25), (CURRENT_DATE, 'IM80469379', 30), 
+	   (CURRENT_DATE, 'MT13618721', 40), (CURRENT_DATE, 'BZ56299653', 45), (CURRENT_DATE, 'EB99238228', 59);
 	   
 	   

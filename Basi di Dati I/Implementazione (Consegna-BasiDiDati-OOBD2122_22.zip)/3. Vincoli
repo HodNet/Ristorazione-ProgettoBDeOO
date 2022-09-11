@@ -1,13 +1,3 @@
-/* stupido postgresql, i create assertion che ci ha insegnato peron non esistono qua, al loro posto dobbiamo usare 
-   i trigger con un "raise exception" dentro 
-CREATE ASSERTION n°MassimoDiAvventoriSuperato
-	CHECK (NOT EXISTS 
-	(
-		SELECT *
-		FROM Tavolata NATURAL JOIN Tavolo
-		WHERE Tavolata.n°avventori > Tavolo.n°maxAvventori
-	));
-*/
 
 CREATE OR REPLACE FUNCTION n°MassimoDiAvventoriSuperato()
 RETURNS TRIGGER
@@ -67,6 +57,35 @@ CREATE OR REPLACE TRIGGER ProprietàSimmetricaTavoliAdiacenti
 AFTER INSERT OR UPDATE ON TavoliAdiacenti
 FOR EACH STATEMENT
 EXECUTE FUNCTION ProprietàSimmetricaTavoliAdiacenti();
+
+--------------------------------------------------------------------------
+
+-- Un cameriere, appartenente ad un certo ristorante di codice XX, può solo servire i tavoli aventi codR XX
+CREATE OR REPLACE FUNCTION TavoliServitiDaCameriereEstraneo()
+RETURNS TRIGGER
+AS $$
+DECLARE
+	codR_Cameriere integer;
+	codR_Tavolo integer;
+BEGIN
+	SELECT codR INTO codR_Cameriere
+	FROM Cameriere
+	WHERE codCartaIdentità=NEW.codCameriere;
+	SELECT codR INTO codR_Tavolo
+	FROM Tavolo NATURAL JOIN Sala NATURAL JOIN Ristorante
+	WHERE codT=NEW.codT;
+	IF codR_Cameriere <> codR_Tavolo THEN
+		RAISE EXCEPTION 'Il cameriere % (appartente al ristorante %) non può servire il tavolo % (appartenente 
+		al ristorante %)', NEW.codCameriere, codR_Cameriere, NEW.codT, codR_Tavolo;
+	END IF;
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER TavoliServitiDaCameriereEstraneo
+BEFORE INSERT OR UPDATE ON Servizio
+FOR EACH ROW
+EXECUTE FUNCTION TavoliServitiDaCameriereEstraneo();
 
 --------------------------------------------------------------------------
 
