@@ -9,11 +9,21 @@ import java.util.List;
 
 public class ClientelaDAO implements DAO<Clientela> {
 	private LinkedList<Clientela> clientelaList;
+	private LinkedList<String> dateList;
 	private String query;
 	private Statement statement;
 	private ResultSet table;
 	
 	public ClientelaDAO(Connection connection) throws SQLException {
+		query = "SELECT DISTINCT dataDiArrivo FROM Clientela";
+		statement = connection.createStatement();
+		table = statement.executeQuery(query);
+		while(table.next()) {
+			if(dateList == null)
+				dateList = new LinkedList<String>();
+			dateList.add(new String(table.getString("dataDiArrivo")));
+		}
+		
 		query = "SELECT* FROM Clientela";
 		statement = connection.createStatement();
 		table = statement.executeQuery(query);
@@ -36,6 +46,10 @@ public class ClientelaDAO implements DAO<Clientela> {
 			}
 		}
 		return clientelaSelected;
+	}
+	
+	public List<String> getAllDistinctDates() {
+		return dateList;
 	}
 
 	@Override

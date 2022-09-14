@@ -48,6 +48,7 @@ public class RistoranteFrame extends JFrame {
 
 	public RistoranteFrame(Ristorante r) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle(r.getNome());
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setBounds(x, y, width, height);
 		contentPane = new JPanel();
