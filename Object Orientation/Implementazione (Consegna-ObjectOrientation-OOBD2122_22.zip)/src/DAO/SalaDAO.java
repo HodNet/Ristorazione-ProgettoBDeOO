@@ -26,11 +26,10 @@ public class SalaDAO implements DAO<Sala> {
 		}
 	}
 	
-	@Override
 	public Sala get(String ID) {
-		for (Sala x : sale)
-			if(x.getID().equals(ID))
-				return x;
+		for (Sala sala : sale)
+			if(sala.getID().equals(ID))
+				return sala;
 		return null;
 	}
 	
@@ -47,6 +46,18 @@ public class SalaDAO implements DAO<Sala> {
 			}
 		}
 		return ret;
+	}
+
+	@Override
+	public void insert(Sala element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Sala element) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -30,7 +30,6 @@ public class RistoranteDAO implements DAO<Ristorante> {
 		}
 	}
 	
-	@Override
 	public Ristorante get(String ID) {
 		for (Ristorante x : ristoranti)
 			if(x.getID().equals(ID))
@@ -43,19 +42,19 @@ public class RistoranteDAO implements DAO<Ristorante> {
 		return ristoranti;
 	}
 	
-//	@Override
-//	public void insert(Ristorante ristorante) {
-//		//TODO
-//	}
+	@Override
+	public void insert(Ristorante ristorante) {
+		//TODO
+	}
 //	
 //	public void update(String ID, String nome, String città, String indirizzo, String numeroCivico) {
 //		//TODO
 //	}
 //    
-//	@Override
-//    public void delete(Ristorante ristorante) {
-//    	//TODO
-//   }
+	@Override
+    public void delete(Ristorante ristorante) {
+    	//TODO
+   }
 	
 	public int getNumeroRistoranti() {
 		return ristoranti.size();

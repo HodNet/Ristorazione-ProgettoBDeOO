@@ -39,6 +39,11 @@ public class RistoranteFrame extends JFrame {
 	private JPanel contentPane;
 	private Ristorante ristorante;
 	
+	private JPanel northPanel;
+	private JPanel southPanel;
+	private JPanel westPanel;
+	private JTabbedPane centerPanel;
+	
 	private JLabel histogram;
 
 	public RistoranteFrame(Ristorante r) {
@@ -61,7 +66,7 @@ public class RistoranteFrame extends JFrame {
 	}
 	
 	private void NorthPanel() {
-		JPanel northPanel = new JPanel();
+		northPanel = new JPanel();
 		northPanel.setBackground(Color.WHITE);
 		northPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -73,7 +78,7 @@ public class RistoranteFrame extends JFrame {
 	}
 	
 	private void WestPanel() {
-		JPanel westPanel = new JPanel();
+		westPanel = new JPanel();
 		westPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(westPanel, BorderLayout.WEST);
 		
@@ -105,7 +110,7 @@ public class RistoranteFrame extends JFrame {
 	}
 	
 	private void CenterPanel() {
-		JTabbedPane centerPanel = new JTabbedPane(JTabbedPane.TOP);
+		centerPanel = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(centerPanel, BorderLayout.CENTER);
 		
 		Controller.calculateHistograms(ristorante);
@@ -124,7 +129,7 @@ public class RistoranteFrame extends JFrame {
 	}
 	
 	private void SouthPanel() {
-		JPanel southPanel = new JPanel();
+		southPanel = new JPanel();
 		southPanel.setBackground(Color.WHITE);
 		southPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		southPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
@@ -138,7 +143,12 @@ public class RistoranteFrame extends JFrame {
 		});
 		southPanel.add(indietro);
 		
-		JButton boh = new JButton("Boh");
-		southPanel.add(boh);
+		JButton cronologiaClienti = new JButton("Cronologia Clienti");
+		cronologiaClienti.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controller.goToClientelaFrame(); 
+			}
+		});
+		southPanel.add(cronologiaClienti);
 	}
 }

@@ -17,10 +17,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import DAO.AvventoreDAO;
+import DAO.CameriereDAO;
+import DAO.ClientelaDAO;
 import DAO.Ristorante;
 import DAO.RistoranteDAO;
 import DAO.Sala;
 import DAO.SalaDAO;
+import DAO.ServizioDAO;
+import GUI.ClientelaFrame;
 import GUI.DBLogin;
 import GUI.ErrorMessage;
 import GUI.Home;
@@ -55,9 +60,14 @@ public class Controller {
 	private static DBLogin DBlogin;
 	public static Home home;
 	public static RistoranteFrame ristoranteFrame;
+	public static ClientelaFrame clientelaFrame;
 	
 	public static RistoranteDAO ristoranteDAO;
 	public static SalaDAO salaDAO;
+	public static AvventoreDAO avventoreDAO;
+	public static CameriereDAO cameriereDAO;
+	public static ClientelaDAO clientelaDAO;
+	public static ServizioDAO servizioDAO;
 	
 	public static void main(String[] args) {
 		DBlogin = new DBLogin();
@@ -140,6 +150,10 @@ public class Controller {
 			try {
 				ristoranteDAO = new RistoranteDAO(DBConnector.getConnection());
 				salaDAO = new SalaDAO(DBConnector.getConnection());
+				avventoreDAO = new AvventoreDAO(DBConnector.getConnection());
+				cameriereDAO = new CameriereDAO(DBConnector.getConnection());
+				clientelaDAO = new ClientelaDAO(DBConnector.getConnection());
+				servizioDAO = new ServizioDAO(DBConnector.getConnection());
 			} catch(SQLException exc) {
 				ErrorMessage error = new ErrorMessage(DBlogin, "Errore nel cercare di estrarre i dati dal database");
 				error.setVisible(true);
@@ -181,6 +195,12 @@ public class Controller {
 		home.setVisible(true);
 		ristoranteFrame.setVisible(false);
 		ristoranteFrame = null;
+	}
+	
+	public static void goToClientelaFrame() {
+		clientelaFrame = null;
+		clientelaFrame = new ClientelaFrame();
+		clientelaFrame.setVisible(true);
 	}
 	
 	public static String getInfoOf(Ristorante ristorante) {

@@ -116,7 +116,7 @@ public class DBLogin extends JFrame {
 		ricordaPassword.setBounds(252, 304, 187, 23);
 		contentPane.add(ricordaPassword);
 		
-		JButton btnNewButton = new JButton("Next");
+		JButton btnNewButton = new JButton("Avanti");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Controller.checkDataBase();
