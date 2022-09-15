@@ -17,8 +17,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import DAO.Avventore;
 import DAO.AvventoreDAO;
+import DAO.Cameriere;
 import DAO.CameriereDAO;
+import DAO.Clientela;
 import DAO.ClientelaDAO;
 import DAO.Ristorante;
 import DAO.RistoranteDAO;
@@ -29,6 +32,7 @@ import GUI.ClientelaFrame;
 import GUI.DBLogin;
 import GUI.ErrorMessage;
 import GUI.Home;
+import GUI.NuovaTavolata;
 import GUI.RistoranteFrame;
 import database.DBConnector;
 
@@ -61,6 +65,7 @@ public class Controller {
 	public static Home home;
 	public static RistoranteFrame ristoranteFrame;
 	public static ClientelaFrame clientelaFrame;
+	public static NuovaTavolata nuovaTavolata;
 	
 	public static RistoranteDAO ristoranteDAO;
 	public static SalaDAO salaDAO;
@@ -197,9 +202,9 @@ public class Controller {
 		ristoranteFrame = null;
 	}
 	
-	public static void goToClientelaFrame() {
+	public static void goToClientelaFrame(Ristorante ristoranteScelto) {
 		clientelaFrame = null;
-		clientelaFrame = new ClientelaFrame();
+		clientelaFrame = new ClientelaFrame(ristoranteScelto);
 		clientelaFrame.setVisible(true);
 	}
 	
@@ -267,5 +272,34 @@ public class Controller {
 			error.setVisible(true);
 			exc.printStackTrace();
 		}
+	}
+	
+	/*
+	 * ClientelaFrame functions:
+	 * 
+	 */
+	public static String getInfoOf(Clientela cliente) {
+		Avventore avventore = avventoreDAO.get(cliente.getCodCartaIdentità());
+		String generalità = avventore.getNome() + " " + avventore.getCognome() + ", " + avventore.getNumeroDiTelefono() + "\n";
+		String codCartaIdentità = "codice della Carta d'Identità: " + avventore.getCodCartaIdentità();
+		return generalità + codCartaIdentità;
+	}
+	
+	public static String getInfoOfCameriereOf(String data, String tavoloID) {
+		Cameriere cameriere = cameriereDAO.get(servizioDAO.getCameriereOf(data, tavoloID).getCodCameriere());
+		return "Servito dal cameriere " + cameriere.getNome() + " " + cameriere.getCognome() + ", " + cameriere.getNumeroDiTelefono() + "\n" +
+			   "nato il " + cameriere.getDataDiNascita() + (cameriere.getCittà()==null ? "" : " a " + cameriere.getCittà()) + "\n" +
+			   "codice della Carta d'Identità: " + cameriere.getCodCartaIdentità();
+	}
+	
+	public static void backToRistoranteFrame() {
+		clientelaFrame.setVisible(false);
+		clientelaFrame = null;
+	}
+	
+	public static void goToNuovaTavolata(Ristorante ristoranteScelto) {
+		nuovaTavolata = null;
+		nuovaTavolata = new NuovaTavolata(ristoranteScelto);
+		nuovaTavolata.setVisible(true);
 	}
 }

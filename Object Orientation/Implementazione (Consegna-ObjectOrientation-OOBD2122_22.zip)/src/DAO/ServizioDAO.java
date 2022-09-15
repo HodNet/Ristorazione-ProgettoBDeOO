@@ -26,16 +26,13 @@ public class ServizioDAO implements DAO<Servizio> {
 		}
 	}
 
-	public List<Servizio> getCamerieriOf(String dataDiArrivo, String tavoloID) {
-		LinkedList<Servizio> servizioSelected = null;
+	public Servizio getCameriereOf(String dataDiArrivo, String tavoloID) {
 		for (Servizio x : servizioList) {
 			if(x.getDataDiArrivo().equals(dataDiArrivo) && x.getTavoloID().equals(tavoloID)) {
-				if (servizioSelected == null)
-					servizioSelected = new LinkedList<Servizio>();
-				servizioSelected.add(x);
+				return x;
 			}
 		}
-		return servizioSelected;
+		return null;
 	}
 	
 	@Override

@@ -46,9 +46,9 @@ public class RistoranteFrame extends JFrame {
 	
 	private JLabel histogram;
 
-	public RistoranteFrame(Ristorante r) {
+	public RistoranteFrame(Ristorante ristoranteScelto) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle(r.getNome());
+		setTitle(ristoranteScelto.getNome());
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setBounds(x, y, width, height);
 		contentPane = new JPanel();
@@ -57,7 +57,7 @@ public class RistoranteFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		ristorante = r;
+		ristorante = ristoranteScelto;
 		NorthPanel();
 		WestPanel();
 		CenterPanel();
@@ -147,7 +147,7 @@ public class RistoranteFrame extends JFrame {
 		JButton cronologiaClienti = new JButton("Cronologia Clienti");
 		cronologiaClienti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Controller.goToClientelaFrame(); 
+				Controller.goToClientelaFrame(ristorante); 
 			}
 		});
 		southPanel.add(cronologiaClienti);
