@@ -12,7 +12,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import DAO.Ristorante;
@@ -24,6 +26,7 @@ import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.SystemColor;
 
 public class NuovaTavolata extends JFrame {
 	private static final int width = 600;
@@ -42,6 +45,8 @@ public class NuovaTavolata extends JFrame {
 	private JTextField cognome;
 	private JTextField numeroDiTelefono;
 	private JTextField codCartaIdentit‡;
+	private ListaAvventoriPanel listaAvventoriPanel;
+	private JScrollPane listaAvventoriScrollPane;
 
 	/**
 	 * Create the frame.
@@ -57,7 +62,7 @@ public class NuovaTavolata extends JFrame {
 		});
 		setBounds(x, y, width, height);
 		setAlwaysOnTop(true);
-		contentPane = new JPanel();
+		contentPane =  new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -143,7 +148,7 @@ public class NuovaTavolata extends JFrame {
 		
 		JPanel inserisciAvventorePanel = new JPanel();
 		inserisciAvventorePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		inserisciAvventorePanel.setBackground(Color.WHITE);
+		inserisciAvventorePanel.setBackground(SystemColor.menu);
 		avventorePanel.add(inserisciAvventorePanel, BorderLayout.NORTH);
 		GridBagLayout gbl_inserisciAvventorePanel = new GridBagLayout();
 		gbl_inserisciAvventorePanel.columnWidths = new int[]{199, 199, 0};
@@ -162,6 +167,7 @@ public class NuovaTavolata extends JFrame {
 		inserisciAvventorePanel.add(avventoreTitle, gbc_avventoreTitle);
 		
 		JLabel nomeTitle = new JLabel("Nome:");
+		nomeTitle.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		GridBagConstraints gbc_nomeTitle = new GridBagConstraints();
 		gbc_nomeTitle.fill = GridBagConstraints.BOTH;
 		gbc_nomeTitle.insets = new Insets(0, 0, 5, 5);
@@ -170,6 +176,7 @@ public class NuovaTavolata extends JFrame {
 		inserisciAvventorePanel.add(nomeTitle, gbc_nomeTitle);
 		
 		JLabel cognomeTitle = new JLabel("Cognome:");
+		cognomeTitle.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		GridBagConstraints gbc_cognomeTitle = new GridBagConstraints();
 		gbc_cognomeTitle.fill = GridBagConstraints.BOTH;
 		gbc_cognomeTitle.insets = new Insets(0, 0, 5, 0);
@@ -196,6 +203,7 @@ public class NuovaTavolata extends JFrame {
 		cognome.setColumns(10);
 		
 		JLabel numeroDiTelefonoTitle = new JLabel("Numero di Telefono:");
+		numeroDiTelefonoTitle.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		GridBagConstraints gbc_numeroDiTelefonoTitle = new GridBagConstraints();
 		gbc_numeroDiTelefonoTitle.fill = GridBagConstraints.BOTH;
 		gbc_numeroDiTelefonoTitle.insets = new Insets(0, 0, 5, 5);
@@ -204,6 +212,7 @@ public class NuovaTavolata extends JFrame {
 		inserisciAvventorePanel.add(numeroDiTelefonoTitle, gbc_numeroDiTelefonoTitle);
 		
 		JLabel codCartaIdentit‡Title = new JLabel("Codice della Carta d'Identit\u00E0:");
+		codCartaIdentit‡Title.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		GridBagConstraints gbc_codCartaIdentit‡Title = new GridBagConstraints();
 		gbc_codCartaIdentit‡Title.fill = GridBagConstraints.BOTH;
 		gbc_codCartaIdentit‡Title.insets = new Insets(0, 0, 5, 0);
@@ -231,15 +240,31 @@ public class NuovaTavolata extends JFrame {
 		codCartaIdentit‡.setColumns(10);
 		
 		JButton aggiungi = new JButton("Aggiungi");
+		aggiungi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				aggiungiAvventore();
+			}
+		});
 		GridBagConstraints gbc_aggiungi = new GridBagConstraints();
 		gbc_aggiungi.gridx = 1;
 		gbc_aggiungi.gridy = 5;
 		inserisciAvventorePanel.add(aggiungi, gbc_aggiungi);
 		
-		JPanel listaAvventoriPanel = new JPanel();
-		listaAvventoriPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		listaAvventoriPanel.setBackground(Color.WHITE);
-		avventorePanel.add(listaAvventoriPanel, BorderLayout.CENTER);
-		listaAvventoriPanel.setLayout(null);
+		listaAvventoriPanel = new ListaAvventoriPanel();
+		listaAvventoriScrollPane = new JScrollPane(listaAvventoriPanel);
+		listaAvventoriScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		listaAvventoriScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		avventorePanel.add(listaAvventoriScrollPane, BorderLayout.CENTER);
+	}
+	
+	private void aggiungiAvventore() {
+		try {
+			listaAvventoriPanel.addAvventore(codCartaIdentit‡.getText(), nome.getText(), cognome.getText(), numeroDiTelefono.getText());
+			listaAvventoriScrollPane.setViewportView(listaAvventoriPanel);
+		} catch (InformazioniVuoteException exc) {
+			ErrorMessage error = new ErrorMessage(this, exc.getMessage());
+			error.setVisible(true);
+			exc.printStackTrace();
+		}
 	}
 }
