@@ -15,12 +15,11 @@ public class RistoranteDAO implements DAO<Ristorante> {
 	private ResultSet table;
 
 	public RistoranteDAO(Connection connection) throws SQLException {
+		ristoranti = new LinkedList<Ristorante>();
 		query = "SELECT* FROM Ristorante";
 		statement = connection.createStatement();
 		table = statement.executeQuery(query);
 		while(table.next()) {
-			if (ristoranti == null)
-				ristoranti = new LinkedList<Ristorante>();
 			ristoranti.add(new Ristorante((table.getString("codR")),
 										  table.getString("nome"),
 										  table.getString("città"),

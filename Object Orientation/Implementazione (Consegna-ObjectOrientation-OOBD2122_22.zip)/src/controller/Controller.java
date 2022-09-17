@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -28,6 +29,8 @@ import DAO.RistoranteDAO;
 import DAO.Sala;
 import DAO.SalaDAO;
 import DAO.ServizioDAO;
+import DAO.Tavolo;
+import DAO.TavoloDAO;
 import GUI.ClientelaFrame;
 import GUI.DBLogin;
 import GUI.ErrorMessage;
@@ -73,6 +76,7 @@ public class Controller {
 	public static CameriereDAO cameriereDAO;
 	public static ClientelaDAO clientelaDAO;
 	public static ServizioDAO servizioDAO;
+	public static TavoloDAO tavoloDAO;
 	
 	public static void main(String[] args) {
 		DBlogin = new DBLogin();
@@ -159,6 +163,7 @@ public class Controller {
 				cameriereDAO = new CameriereDAO(DBConnector.getConnection());
 				clientelaDAO = new ClientelaDAO(DBConnector.getConnection());
 				servizioDAO = new ServizioDAO(DBConnector.getConnection());
+				tavoloDAO = new TavoloDAO(DBConnector.getConnection());
 			} catch(SQLException exc) {
 				ErrorMessage error = new ErrorMessage(DBlogin, "Errore nel cercare di estrarre i dati dal database");
 				error.setVisible(true);
@@ -198,14 +203,16 @@ public class Controller {
 	 */
 	public static void backToHome() {
 		home.setVisible(true);
+		if(nuovaTavolata!=null) backToClientelaFrame();
+		if(clientelaFrame!=null) backToRistoranteFrame();
 		ristoranteFrame.setVisible(false);
 		ristoranteFrame = null;
 	}
 	
 	public static void goToClientelaFrame(Ristorante ristoranteScelto) {
-		clientelaFrame = null;
 		clientelaFrame = new ClientelaFrame(ristoranteScelto);
 		clientelaFrame.setVisible(true);
+		ristoranteFrame.setEnabledButtons(false);
 	}
 	
 	public static String getInfoOf(Ristorante ristorante) {
@@ -216,6 +223,16 @@ public class Controller {
 		
 		for(Sala sala : salaDAO.getAllOf(ristorante)) {
 			info = info + "Sala " + sala.getID() + ": " + sala.getNumeroDiTavoli() + " tavoli\n";
+		}
+		
+		info = info + "\n\nCamerieri:\n";
+		
+		for(Cameriere cameriere : cameriereDAO.getCamerieriOf(ristorante)) {
+			info = info + "\n" + cameriere.getNome() + " " + cameriere.getCognome() + ", " + cameriere.getNumeroDiTelefono();
+			if(cameriere.getCittà()!=null && cameriere.getIndirizzo()!=null)
+				info = info + "\nresidente a " + cameriere.getCittà() + ",\n" + cameriere.getIndirizzo() + " " + cameriere.getNumeroCivico();
+			info = info + "\nnato il " + cameriere.getDataDiNascita();
+			info = info + "\nCarta d'identità: " + cameriere.getCodCartaIdentità() + "\n";
 		}
 		
 		return info;
@@ -293,13 +310,47 @@ public class Controller {
 	}
 	
 	public static void backToRistoranteFrame() {
+		ristoranteFrame.setEnabledButtons(true);
+		if(nuovaTavolata!=null) backToClientelaFrame();
 		clientelaFrame.setVisible(false);
 		clientelaFrame = null;
 	}
 	
 	public static void goToNuovaTavolata(Ristorante ristoranteScelto) {
-		nuovaTavolata = null;
 		nuovaTavolata = new NuovaTavolata(ristoranteScelto);
 		nuovaTavolata.setVisible(true);
+		clientelaFrame.setEnabledButtons(false);
+	}
+	
+	/*
+	 * NuovaTavolata functions:
+	 * 
+	 */
+	public static void backToClientelaFrame() {
+		clientelaFrame.setEnabledButtons(true);
+		nuovaTavolata.setVisible(false);
+		nuovaTavolata = null;
+	}
+	
+	public static String[] getTavoliOf(Ristorante ristorante) {
+		LinkedList<String> tavoliSelected = new LinkedList<String>();
+		try {
+			for(Tavolo tavolo : tavoloDAO.getTavoliOf(ristorante)) {
+				tavoliSelected.add(tavolo.getID());
+			}
+		} catch (SQLException exc) {
+			ErrorMessage error = new ErrorMessage(DBlogin, "Errore nell'ottenere i tavoli del ristorante dal Database");
+			error.setVisible(true);
+			exc.printStackTrace();
+		}
+		return tavoliSelected.toArray(new String[0]);
+	}
+	
+	public static String[] getCamerieriOf(Ristorante ristorante) {
+		LinkedList<String> camerieriSelected = new LinkedList<String>();
+		for(Cameriere cameriere : cameriereDAO.getCamerieriOf(ristorante)) {
+			camerieriSelected.add(cameriere.getNome() + " " + cameriere.getCognome() + ", " +  cameriere.getCodCartaIdentità());
+		}
+		return camerieriSelected.toArray(new String[0]);
 	}
 }

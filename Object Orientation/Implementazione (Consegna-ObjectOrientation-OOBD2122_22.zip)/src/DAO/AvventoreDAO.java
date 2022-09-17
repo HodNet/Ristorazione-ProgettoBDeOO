@@ -14,12 +14,11 @@ public class AvventoreDAO implements DAO<Avventore> {
 	private ResultSet table;
 	
 	public AvventoreDAO(Connection connection) throws SQLException {
+		avventori = new LinkedList<Avventore>();
 		query = "SELECT* FROM Avventore";
 		statement = connection.createStatement();
 		table = statement.executeQuery(query);
 		while(table.next()) {
-			if (avventori == null)
-				avventori = new LinkedList<Avventore>();
 			avventori.add(new Avventore(table.getString("codCartaIdentità"),
 							   			table.getString("nome"),
 							   			table.getString("cognome"),

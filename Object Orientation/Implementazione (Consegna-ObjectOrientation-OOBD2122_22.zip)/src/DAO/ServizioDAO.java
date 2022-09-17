@@ -14,12 +14,11 @@ public class ServizioDAO implements DAO<Servizio> {
 	private ResultSet table;
 	
 	public ServizioDAO(Connection connection) throws SQLException {
+		servizioList = new LinkedList<Servizio>();
 		query = "SELECT* FROM Servizio";
 		statement = connection.createStatement();
 		table = statement.executeQuery(query);
 		while(table.next()) {
-			if (servizioList == null)
-				servizioList = new LinkedList<Servizio>();
 			servizioList.add(new Servizio(table.getString("codCameriere"),
 							   			table.getString("dataDiArrivo"),
 							   			table.getString("codT")));

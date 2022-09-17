@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 import javax.swing.GroupLayout;
@@ -36,20 +38,27 @@ public class ClientelaFrame extends JFrame {
 	private static final int x = Controller.screenWidth/2 - width/2;
 	private static final int y = Controller.screenHeight/2 - height/2;
 	
+	private Ristorante ristorante;
+	
 	private JPanel contentPane;
 	private JScrollPane westPanel;
 	private JScrollPane centerPanel;
-	
-	private Ristorante ristorante;
+	private JButton addButton;
+	private JButton closeButton;
 
 	/**
 	 * Create the frame.
 	 */
 	public ClientelaFrame(Ristorante ristoranteScelto) {
-		setModalExclusionType(ModalExclusionType.TOOLKIT_EXCLUDE);
 		setTitle("Cronologia dei Clienti");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		addWindowListener( new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Controller.backToRistoranteFrame();
+			}
+		});
 		setBounds(x, y, width, height);
+		setAlwaysOnTop(true);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -73,14 +82,14 @@ public class ClientelaFrame extends JFrame {
 		contentPane.add(southPanel, BorderLayout.SOUTH);
 		southPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		
-		JButton addButton = new JButton("Aggiungi Tavolata");
+		addButton = new JButton("Aggiungi Tavolata");
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Controller.goToNuovaTavolata(ristorante);
 			}
 		});
 		
-		JButton closeButton = new JButton("Chiudi");
+		closeButton = new JButton("Chiudi");
 		closeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Controller.backToRistoranteFrame();
@@ -221,5 +230,9 @@ public class ClientelaFrame extends JFrame {
 				.addGap(0, height, Short.MAX_VALUE)
 		);
 		panel.setLayout(gl_panel);
+	}
+	
+	public void setEnabledButtons(boolean b) {
+		addButton.setEnabled(b);
 	}
 }

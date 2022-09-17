@@ -45,6 +45,8 @@ public class RistoranteFrame extends JFrame {
 	private JTabbedPane centerPanel;
 	
 	private JLabel histogram;
+	private JButton indietro;
+	private JButton cronologiaClienti;
 
 	public RistoranteFrame(Ristorante ristoranteScelto) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -136,7 +138,7 @@ public class RistoranteFrame extends JFrame {
 		southPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		contentPane.add(southPanel, BorderLayout.SOUTH);
 		
-		JButton indietro = new JButton("Indietro");
+		indietro = new JButton("Indietro");
 		indietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Controller.backToHome();
@@ -144,12 +146,16 @@ public class RistoranteFrame extends JFrame {
 		});
 		southPanel.add(indietro);
 		
-		JButton cronologiaClienti = new JButton("Cronologia Clienti");
+		cronologiaClienti = new JButton("Cronologia Clienti");
 		cronologiaClienti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Controller.goToClientelaFrame(ristorante); 
 			}
 		});
 		southPanel.add(cronologiaClienti);
+	}
+	
+	public void setEnabledButtons(boolean b) {
+		cronologiaClienti.setEnabled(b);
 	}
 }

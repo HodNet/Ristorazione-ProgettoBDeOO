@@ -14,12 +14,11 @@ public class SalaDAO implements DAO<Sala> {
 	private ResultSet table;
 	
 	public SalaDAO(Connection connection) throws SQLException {
+		sale = new LinkedList<Sala>();
 		query = "SELECT* FROM Sala";
 		statement = connection.createStatement();
 		table = statement.executeQuery(query);
 		while(table.next()) {
-			if (sale == null)
-				sale = new LinkedList<Sala>();
 			sale.add(new Sala(table.getString("codS"),
 							   table.getInt("n°tavoli"),
 							   table.getString("codR")));

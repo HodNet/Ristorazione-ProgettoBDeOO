@@ -14,12 +14,11 @@ public class CameriereDAO implements DAO<Cameriere> {
 	private ResultSet table;
 	
 	public CameriereDAO(Connection connection) throws SQLException {
+		camerieri = new LinkedList<Cameriere>();
 		query = "SELECT* FROM Cameriere";
 		statement = connection.createStatement();
 		table = statement.executeQuery(query);
 		while(table.next()) {
-			if (camerieri == null)
-				camerieri = new LinkedList<Cameriere>();
 			camerieri.add(new Cameriere(table.getString("codCartaIdentità"),
 							   			table.getString("nome"),
 							   			table.getString("cognome"),
@@ -34,10 +33,20 @@ public class CameriereDAO implements DAO<Cameriere> {
 	}
 
 	public Cameriere get(String codCartaIdentità) {
-		for (Cameriere cameriere : camerieri)
+		for (Cameriere cameriere : camerieri) {
 			if(cameriere.getCodCartaIdentità().equals(codCartaIdentità))
 				return cameriere;
+		}
 		return null;
+	}
+	
+	public List<Cameriere> getCamerieriOf(Ristorante ristorante) {
+		LinkedList<Cameriere> camerieriSelected = new LinkedList<Cameriere>();
+		for (Cameriere cameriere : camerieri) {
+			if(cameriere.getRistoranteID().equals(ristorante.getID()))
+				camerieriSelected.add(cameriere);
+		}
+		return camerieriSelected;
 	}
 
 	@Override
