@@ -155,7 +155,11 @@ public class RistoranteFrame extends JFrame {
 		southPanel.add(cronologiaClienti);
 	}
 	
-	public void setEnabledButtons(boolean b) {
+	public void setButtonsEnabled(boolean b) {
 		cronologiaClienti.setEnabled(b);
+	}
+	
+	public Ristorante getRistoranteScelto() {
+		return ristorante;
 	}
 }

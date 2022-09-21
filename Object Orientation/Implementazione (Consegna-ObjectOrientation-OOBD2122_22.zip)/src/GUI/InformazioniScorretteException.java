@@ -1,11 +1,11 @@
 package GUI;
 
-public class InformazioniVuoteException extends Exception {
+public class InformazioniScorretteException extends Exception {
 	private String message = "La casella di testo non può essere vuota. Inserisci qualcosa e riprova";
 
-	public InformazioniVuoteException() {}
+	public InformazioniScorretteException() {}
 			
-	public InformazioniVuoteException(String errorMessage) {
+	public InformazioniScorretteException(String errorMessage) {
 		message = errorMessage;
 	}
 			

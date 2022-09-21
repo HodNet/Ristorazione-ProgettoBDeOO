@@ -35,6 +35,7 @@ import GUI.ClientelaFrame;
 import GUI.DBLogin;
 import GUI.ErrorMessage;
 import GUI.Home;
+import GUI.InformazioniScorretteException;
 import GUI.NuovaTavolata;
 import GUI.RistoranteFrame;
 import database.DBConnector;
@@ -212,7 +213,7 @@ public class Controller {
 	public static void goToClientelaFrame(Ristorante ristoranteScelto) {
 		clientelaFrame = new ClientelaFrame(ristoranteScelto);
 		clientelaFrame.setVisible(true);
-		ristoranteFrame.setEnabledButtons(false);
+		ristoranteFrame.setButtonsEnabled(false);
 	}
 	
 	public static String getInfoOf(Ristorante ristorante) {
@@ -310,7 +311,7 @@ public class Controller {
 	}
 	
 	public static void backToRistoranteFrame() {
-		ristoranteFrame.setEnabledButtons(true);
+		ristoranteFrame.setButtonsEnabled(true);
 		if(nuovaTavolata!=null) backToClientelaFrame();
 		clientelaFrame.setVisible(false);
 		clientelaFrame = null;
@@ -319,7 +320,7 @@ public class Controller {
 	public static void goToNuovaTavolata(Ristorante ristoranteScelto) {
 		nuovaTavolata = new NuovaTavolata(ristoranteScelto);
 		nuovaTavolata.setVisible(true);
-		clientelaFrame.setEnabledButtons(false);
+		clientelaFrame.setButtonsEnabled(false);
 	}
 	
 	/*
@@ -327,7 +328,7 @@ public class Controller {
 	 * 
 	 */
 	public static void backToClientelaFrame() {
-		clientelaFrame.setEnabledButtons(true);
+		clientelaFrame.setButtonsEnabled(true);
 		nuovaTavolata.setVisible(false);
 		nuovaTavolata = null;
 	}
@@ -346,11 +347,24 @@ public class Controller {
 		return tavoliSelected.toArray(new String[0]);
 	}
 	
-	public static String[] getCamerieriOf(Ristorante ristorante) {
+	public static String[] getInfoCamerieriOf(Ristorante ristorante) {
 		LinkedList<String> camerieriSelected = new LinkedList<String>();
 		for(Cameriere cameriere : cameriereDAO.getCamerieriOf(ristorante)) {
-			camerieriSelected.add(cameriere.getNome() + " " + cameriere.getCognome() + ", " +  cameriere.getCodCartaIdentità());
+			camerieriSelected.add(cameriere.getCodCartaIdentità() + " (" + cameriere.getNome() + " " + cameriere.getCognome() + ")");
 		}
 		return camerieriSelected.toArray(new String[0]);
+	}
+	
+	public static void inserisciTavolata(String tavoloID, String data, Cameriere cameriere, LinkedList<Avventore> avventori) throws InformazioniScorretteException {
+		if(tavoloID==null || tavoloID.isBlank())
+			throw new InformazioniScorretteException("Selezionare un tavolo");
+		if(data==null || data.isBlank())
+			throw new InformazioniScorretteException("Inserire una data");
+		if(cameriere==null)
+			throw new InformazioniScorretteException("Selezionare un cameriere");
+		if(avventori==null || avventori.isEmpty())
+			throw new InformazioniScorretteException("Inserire almeno un avventore");
+		
+		backToClientelaFrame();
 	}
 }

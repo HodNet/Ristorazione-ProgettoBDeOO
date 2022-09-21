@@ -36,15 +36,18 @@ public class NuovaTavolata extends JFrame {
 
 	private Ristorante ristorante;
 	private String tavoloID;
+	private String cameriereID;
+	private int numeroPostiDisponibili = 0;
 	
 	private JPanel contentPane;
 	private JLabel numeroMaxAvventori;
-	private int numeroPostiDisponibili = 0;
 	private JTextField data;
 	private JTextField nome;
 	private JTextField cognome;
 	private JTextField numeroDiTelefono;
 	private JTextField codCartaIdentità;
+	private JButton aggiungi;
+	
 	private ListaAvventoriPanel listaAvventoriPanel;
 	private JScrollPane listaAvventoriScrollPane;
 
@@ -91,6 +94,7 @@ public class NuovaTavolata extends JFrame {
 				tavoloID = codiceTavolo.getItemAt(codiceTavolo.getSelectedIndex());
 				numeroPostiDisponibili = Controller.tavoloDAO.get(tavoloID).getNumeroMassimoDiAvventori();
 				numeroMaxAvventori.setText(numeroPostiDisponibili + " posti disponibili");
+				resetListaAvventori();
 			}
 		});
 		contentPane.add(codiceTavolo);
@@ -122,18 +126,34 @@ public class NuovaTavolata extends JFrame {
 		
 		JComboBox<String> cameriere = new JComboBox<String>();
 		cameriere.setMaximumRowCount(50);
-		cameriere.setModel(new DefaultComboBoxModel<String>(Controller.getCamerieriOf(ristorante)));
+		cameriere.setModel(new DefaultComboBoxModel<String>(Controller.getInfoCamerieriOf(ristorante)));
 		cameriere.setSelectedIndex(-1);
 		cameriere.setBounds(10, 249, 151, 22);
+		cameriere.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String cameriereSelected = cameriere.getItemAt(cameriere.getSelectedIndex());
+				cameriereID = cameriereSelected.substring(0, cameriereSelected.indexOf(" "));
+			}
+		});
 		contentPane.add(cameriere);
 		
 		InserisciAvventoriPanel();
 		
 		JButton inserisci = new JButton("Inserisci");
+		inserisci.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				inserisci();
+			}
+		});
 		inserisci.setBounds(485, 527, 89, 23);
 		contentPane.add(inserisci);
 		
 		JButton annulla = new JButton("Annulla");
+		annulla.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controller.backToClientelaFrame();
+			}
+		});
 		annulla.setBounds(386, 527, 89, 23);
 		contentPane.add(annulla);
 	}
@@ -221,7 +241,7 @@ public class NuovaTavolata extends JFrame {
 		inserisciAvventorePanel.add(codCartaIdentitàTitle, gbc_codCartaIdentitàTitle);
 		
 		numeroDiTelefono = new JTextField();
-		numeroDiTelefono.setText("+39");
+		numeroDiTelefono.setText("+39 ");
 		GridBagConstraints gbc_numeroDiTelefono = new GridBagConstraints();
 		gbc_numeroDiTelefono.fill = GridBagConstraints.BOTH;
 		gbc_numeroDiTelefono.insets = new Insets(0, 0, 5, 5);
@@ -239,7 +259,8 @@ public class NuovaTavolata extends JFrame {
 		inserisciAvventorePanel.add(codCartaIdentità, gbc_codCartaIdentità);
 		codCartaIdentità.setColumns(10);
 		
-		JButton aggiungi = new JButton("Aggiungi");
+		aggiungi = new JButton("Aggiungi");
+		aggiungi.setEnabled(false);
 		aggiungi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				aggiungiAvventore();
@@ -250,7 +271,7 @@ public class NuovaTavolata extends JFrame {
 		gbc_aggiungi.gridy = 5;
 		inserisciAvventorePanel.add(aggiungi, gbc_aggiungi);
 		
-		listaAvventoriPanel = new ListaAvventoriPanel();
+		listaAvventoriPanel = new ListaAvventoriPanel(this);
 		listaAvventoriScrollPane = new JScrollPane(listaAvventoriPanel);
 		listaAvventoriScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		listaAvventoriScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -261,10 +282,32 @@ public class NuovaTavolata extends JFrame {
 		try {
 			listaAvventoriPanel.addAvventore(codCartaIdentità.getText(), nome.getText(), cognome.getText(), numeroDiTelefono.getText());
 			listaAvventoriScrollPane.setViewportView(listaAvventoriPanel);
-		} catch (InformazioniVuoteException exc) {
+			if(listaAvventoriPanel.getNumeroAvventori() >= numeroPostiDisponibili)
+				aggiungi.setEnabled(false);
+		} catch (InformazioniScorretteException exc) {
 			ErrorMessage error = new ErrorMessage(this, exc.getMessage());
 			error.setVisible(true);
 			exc.printStackTrace();
 		}
+	}
+	
+	private void resetListaAvventori() {
+		if(numeroPostiDisponibili > 0)
+			aggiungi.setEnabled(true);
+		listaAvventoriPanel.clear();
+	}
+	
+	private void inserisci() {
+		try {
+			Controller.inserisciTavolata(tavoloID, data.getText(), Controller.cameriereDAO.get(cameriereID), listaAvventoriPanel.getAll());
+		} catch (InformazioniScorretteException exc) {
+			ErrorMessage error = new ErrorMessage(this, exc.getMessage());
+			error.setVisible(true);
+			exc.printStackTrace();
+		}
+	}
+	
+	public JButton getAggiungiButton() {
+		return aggiungi;
 	}
 }

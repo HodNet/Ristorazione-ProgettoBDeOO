@@ -70,7 +70,8 @@ CREATE TABLE Clientela
 	codCartaIdentità VARCHAR(12) NOT NULL,
 	dataDiArrivo date NOT NULL,
 	codT integer NOT NULL,
-	FOREIGN KEY(CodCartaIdentità) REFERENCES Avventore(codCartaIdentità)
+	FOREIGN KEY(CodCartaIdentità) REFERENCES Avventore(codCartaIdentità),
+	UNIQUE(codCartaIdentità, dataDiArrivo) --Una stessa persona non può trovarsi in due posti contemporaneamente
 );
 
 CREATE TYPE genere AS ENUM('M', 'F');
