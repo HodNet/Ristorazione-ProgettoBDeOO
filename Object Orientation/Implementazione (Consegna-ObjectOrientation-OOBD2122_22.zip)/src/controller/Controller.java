@@ -28,6 +28,7 @@ import DAO.Ristorante;
 import DAO.RistoranteDAO;
 import DAO.Sala;
 import DAO.SalaDAO;
+import DAO.Servizio;
 import DAO.ServizioDAO;
 import DAO.Tavolo;
 import DAO.TavoloDAO;
@@ -365,6 +366,26 @@ public class Controller {
 		if(avventori==null || avventori.isEmpty())
 			throw new InformazioniScorretteException("Inserire almeno un avventore");
 		
-		backToClientelaFrame();
+		try {
+//			if(cameriereDAO.notExists(cameriere)) //OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+//				cameriereDAO.insert(cameriere);
+			for(Avventore avventore : avventori) {
+				if(avventoreDAO.notExists(avventore)) //NON MI PIACE, RIVEDILO.
+					avventoreDAO.insert(avventore);
+				clientelaDAO.insert(new Clientela(avventore.getCodCartaIdentità(), data, tavoloID));
+			}
+			servizioDAO.insert(new Servizio(cameriere.getCodCartaIdentità(), data, tavoloID));
+
+			ClientelaFrame tmp = new ClientelaFrame(ristoranteFrame.getRistoranteScelto());
+			tmp.setVisible(true);
+			clientelaFrame.setVisible(false);
+			clientelaFrame = tmp;
+			nuovaTavolata.setVisible(false);
+			nuovaTavolata = null;
+		} catch (SQLException exc) {
+			ErrorMessage error = new ErrorMessage(home, "Dati inseriti scorretti: " + exc.getMessage());
+			error.setVisible(true);
+			exc.printStackTrace();
+		}
 	}
 }

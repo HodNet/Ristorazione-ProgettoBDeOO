@@ -1,6 +1,8 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -98,13 +100,17 @@ public class ClientelaDAO implements DAO<Clientela> {
 	}
 
 	@Override
-	public void insert(Clientela element) {
-		// TODO Auto-generated method stub
-		
+	public void insert(Clientela element) throws SQLException {
+		query = "INSERT INTO Clientela(codCartaIdentità, dataDiArrivo, codT) VALUES (?, ?, ?)";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, element.getCodCartaIdentità());
+		preparedStatement.setDate(2, Date.valueOf(element.getDataDiArrivo())); //ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+		preparedStatement.setInt(3, Integer.valueOf(element.getTavoloID()));
+		preparedStatement.execute();
 	}
 
 	@Override
-	public void delete(Clientela element) {
+	public void delete(Clientela element) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}

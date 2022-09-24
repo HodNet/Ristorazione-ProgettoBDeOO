@@ -1,6 +1,8 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,6 +14,7 @@ public class ServizioDAO implements DAO<Servizio> {
 	private String query;
 	private Statement statement;
 	private ResultSet table;
+	private Connection connection;
 	
 	public ServizioDAO(Connection connection) throws SQLException {
 		servizioList = new LinkedList<Servizio>();
@@ -23,6 +26,7 @@ public class ServizioDAO implements DAO<Servizio> {
 							   			table.getString("dataDiArrivo"),
 							   			table.getString("codT")));
 		}
+		this.connection = connection;
 	}
 
 	public Servizio getCameriereOf(String dataDiArrivo, String tavoloID) {
@@ -40,13 +44,17 @@ public class ServizioDAO implements DAO<Servizio> {
 	}
 
 	@Override
-	public void insert(Servizio element) {
-		// TODO Auto-generated method stub
-		
+	public void insert(Servizio element) throws SQLException {
+		query = "INSERT INTO Servizio(codCameriere, dataDiArrivo, codT) VALUES (?, ?, ?)";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, element.getCodCameriere());
+		preparedStatement.setDate(2, Date.valueOf(element.getDataDiArrivo()));
+		preparedStatement.setInt(3, Integer.valueOf(element.getTavoloID()));
+		preparedStatement.execute();
 	}
 
 	@Override
-	public void delete(Servizio element) {
+	public void delete(Servizio element) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
