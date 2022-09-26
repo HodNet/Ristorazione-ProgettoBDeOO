@@ -1,6 +1,7 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,6 +13,7 @@ public class SalaDAO implements DAO<Sala> {
 	private String query;
 	private Statement statement;
 	private ResultSet table;
+	private Connection connection;
 	
 	public SalaDAO(Connection connection) throws SQLException {
 		sale = new LinkedList<Sala>();
@@ -23,6 +25,7 @@ public class SalaDAO implements DAO<Sala> {
 							   table.getInt("n°tavoli"),
 							   table.getString("codR")));
 		}
+		this.connection = connection;
 	}
 	
 	public Sala get(String ID) {
@@ -48,9 +51,12 @@ public class SalaDAO implements DAO<Sala> {
 	}
 
 	@Override
-	public void insert(Sala element) {
-		// TODO Auto-generated method stub
-		
+	public void insert(Sala element) throws SQLException {
+		query = "INSERT INTO Sala(codR) VALUES (?)";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setInt(1, Integer.valueOf(element.getRistoranteID()));
+		preparedStatement.execute();
+		sale.add(element);
 	}
 
 	@Override

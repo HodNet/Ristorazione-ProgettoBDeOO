@@ -20,7 +20,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.Controller;
 
-public class ErrorMessage extends JDialog {
+public class SuccessMessage extends JDialog {
 
 	private static final int width = 360;
 	private static final int height = 150;
@@ -28,7 +28,7 @@ public class ErrorMessage extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JFrame frame;
 
-	public ErrorMessage(JFrame frame, String message) {
+	public SuccessMessage(JFrame frame, String message) {
 		setBounds(frame.getX() + frame.getWidth()/2 - width/2, frame.getY() + frame.getHeight()/2 - height/2, width, height);
 		setAlwaysOnTop(true);
 		getContentPane().setLayout(new BorderLayout());
@@ -45,25 +45,25 @@ public class ErrorMessage extends JDialog {
 		frame.setEnabled(false);
 		this.frame = frame;
 		
-		JLabel errorImage = new JLabel("New label");
-		errorImage.setBounds(10, 11, 45, 45);
-		Controller.scaleImage(errorImage, "error.png");
-		contentPanel.add(errorImage);
+		JLabel successImage = new JLabel("New label");
+		successImage.setBounds(10, 11, 45, 45);
+		Controller.scaleImage(successImage, "success.png");
+		contentPanel.add(successImage);
 		
-		JTextArea errorMessage = new JTextArea();
-		errorMessage.setWrapStyleWord(true);
-		errorMessage.setLineWrap(true);
-		errorMessage.setEditable(false);
-		errorMessage.setText(message);
-		errorMessage.setBackground(new Color(240, 240, 240));
-		errorMessage.setBounds(65, 11, 269, 45);
+		JTextArea successMessage = new JTextArea();
+		successMessage.setWrapStyleWord(true);
+		successMessage.setLineWrap(true);
+		successMessage.setEditable(false);
+		successMessage.setText(message);
+		successMessage.setBackground(new Color(240, 240, 240));
+		successMessage.setBounds(65, 11, 269, 45);
 		
-		JScrollPane scrollableErrorMessage = new JScrollPane(errorMessage);
-		scrollableErrorMessage.setBounds(65, 11, 269, 45);
-		scrollableErrorMessage.setBorder(null);
-		scrollableErrorMessage.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollableErrorMessage.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		contentPanel.add(scrollableErrorMessage);
+		JScrollPane scrollableSuccessMessage = new JScrollPane(successMessage);
+		scrollableSuccessMessage.setBounds(65, 11, 269, 45);
+		scrollableSuccessMessage.setBorder(null);
+		scrollableSuccessMessage.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollableSuccessMessage.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		contentPanel.add(scrollableSuccessMessage);
 		
 		{
 			JPanel buttonPane = new JPanel();

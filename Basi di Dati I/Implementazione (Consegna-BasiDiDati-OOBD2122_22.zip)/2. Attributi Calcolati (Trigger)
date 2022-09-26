@@ -98,12 +98,16 @@ CREATE OR REPLACE FUNCTION AggiornaTavolata()
 RETURNS TRIGGER
 AS $$
 BEGIN
+	ALTER TABLE Servizio
+	DROP CONSTRAINT servizio_datadiarrivo_codt_fkey;
 	DELETE FROM Tavolata;
 	INSERT INTO Tavolata(dataDiArrivo, n°avventori, codT) (
 		SELECT dataDiArrivo, COUNT(codCartaIdentità), codT
 		FROM Clientela
 		GROUP BY dataDiArrivo, codT
 	);
+	ALTER TABLE Servizio
+	ADD CONSTRAINT servizio_datadiarrivo_codt_fkey FOREIGN KEY(dataDiArrivo, codT) REFERENCES Tavolata(dataDiArrivo, codT);
 	RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

@@ -98,5 +98,5 @@ CREATE TABLE Servizio
 	dataDiArrivo date NOT NULL,
 	codT integer NOT NULL,
 	FOREIGN KEY(codCameriere) REFERENCES Cameriere(codCartaIdentità),
-	FOREIGN KEY(dataDiArrivo, codT) REFERENCES Tavolata(dataDiArrivo, codT)
+	CONSTRAINT servizio_datadiarrivo_codt_fkey FOREIGN KEY(dataDiArrivo, codT) REFERENCES Tavolata(dataDiArrivo, codT)
 );

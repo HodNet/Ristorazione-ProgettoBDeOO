@@ -27,6 +27,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.SystemColor;
+import javax.swing.SwingConstants;
 
 public class NuovaTavolata extends JFrame {
 	private static final int width = 600;
@@ -266,6 +267,15 @@ public class NuovaTavolata extends JFrame {
 				aggiungiAvventore();
 			}
 		});
+		
+		JLabel esempioNumeroDiTelefono = new JLabel("Es: +39 XXX XXXXXXX");
+		esempioNumeroDiTelefono.setVerticalAlignment(SwingConstants.TOP);
+		esempioNumeroDiTelefono.setForeground(Color.GRAY);
+		GridBagConstraints gbc_esempioNumeroDiTelefono = new GridBagConstraints();
+		gbc_esempioNumeroDiTelefono.insets = new Insets(0, 0, 0, 5);
+		gbc_esempioNumeroDiTelefono.gridx = 0;
+		gbc_esempioNumeroDiTelefono.gridy = 5;
+		inserisciAvventorePanel.add(esempioNumeroDiTelefono, gbc_esempioNumeroDiTelefono);
 		GridBagConstraints gbc_aggiungi = new GridBagConstraints();
 		gbc_aggiungi.gridx = 1;
 		gbc_aggiungi.gridy = 5;

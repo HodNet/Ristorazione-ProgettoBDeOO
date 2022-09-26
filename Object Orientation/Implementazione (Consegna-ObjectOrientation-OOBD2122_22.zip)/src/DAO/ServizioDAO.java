@@ -29,7 +29,7 @@ public class ServizioDAO implements DAO<Servizio> {
 		this.connection = connection;
 	}
 
-	public Servizio getCameriereOf(String dataDiArrivo, String tavoloID) {
+	public Servizio get(String dataDiArrivo, String tavoloID) {
 		for (Servizio x : servizioList) {
 			if(x.getDataDiArrivo().equals(dataDiArrivo) && x.getTavoloID().equals(tavoloID)) {
 				return x;
@@ -51,6 +51,7 @@ public class ServizioDAO implements DAO<Servizio> {
 		preparedStatement.setDate(2, Date.valueOf(element.getDataDiArrivo()));
 		preparedStatement.setInt(3, Integer.valueOf(element.getTavoloID()));
 		preparedStatement.execute();
+		servizioList.add(element);
 	}
 
 	@Override

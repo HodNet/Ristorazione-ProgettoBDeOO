@@ -1,6 +1,7 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -53,9 +54,13 @@ public class TavoloDAO implements DAO<Tavolo> {
 	}
 
 	@Override
-	public void insert(Tavolo element) {
-		// TODO Auto-generated method stub
-
+	public void insert(Tavolo element) throws SQLException {
+		query = "INSERT INTO Tavolo(n°maxAvventori, codS) VALUES (?, ?)";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setInt(1, element.getNumeroMassimoDiAvventori());
+		preparedStatement.setInt(2, Integer.valueOf(element.getSalaID()));
+		preparedStatement.execute();
+		tavoli.add(element);
 	}
 
 	@Override

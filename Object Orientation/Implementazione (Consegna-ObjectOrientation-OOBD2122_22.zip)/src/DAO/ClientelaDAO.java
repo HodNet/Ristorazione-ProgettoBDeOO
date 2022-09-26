@@ -107,6 +107,21 @@ public class ClientelaDAO implements DAO<Clientela> {
 		preparedStatement.setDate(2, Date.valueOf(element.getDataDiArrivo())); //ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 		preparedStatement.setInt(3, Integer.valueOf(element.getTavoloID()));
 		preparedStatement.execute();
+		clientelaList.add(element);
+	}
+	
+	public void insertTavolata(List<Avventore> avventori, String data, String tavoloID) throws SQLException {
+		query = "INSERT INTO Clientela(codCartaIdentità, dataDiArrivo, codT) VALUES ";
+		boolean isThisTheFirstElement = true;
+		for(Avventore avventore : avventori) {
+			query = query + (isThisTheFirstElement ? "" : ", ") + 
+					"('" + avventore.getCodCartaIdentità() + "'" +
+					", '" + data + "'" +
+					", '" + tavoloID + "'" + ")";
+			isThisTheFirstElement = false;
+			clientelaList.add( new Clientela(avventore.getCodCartaIdentità(), data, tavoloID) );
+		}
+		statement.execute(query);
 	}
 
 	@Override

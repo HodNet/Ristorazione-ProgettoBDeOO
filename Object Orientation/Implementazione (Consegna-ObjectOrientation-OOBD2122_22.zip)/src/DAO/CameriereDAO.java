@@ -37,7 +37,7 @@ public class CameriereDAO implements DAO<Cameriere> {
 	}
 	
 	public boolean exists(Cameriere cameriere) {
-		return get(cameriere.getCodCartaIdentità()) != null;
+		return camerieri.contains(cameriere);
 	}
 	
 	public boolean notExists(Cameriere cameriere) {
@@ -81,6 +81,7 @@ public class CameriereDAO implements DAO<Cameriere> {
 		preparedStatement.setString(9, element.getSesso());
 		preparedStatement.setInt(10, Integer.valueOf(element.getRistoranteID()));
 		preparedStatement.execute();
+		camerieri.add(element);
 	}
 
 	@Override

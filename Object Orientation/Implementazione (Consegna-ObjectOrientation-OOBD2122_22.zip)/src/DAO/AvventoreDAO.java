@@ -30,7 +30,7 @@ public class AvventoreDAO implements DAO<Avventore> {
 	}
 	
 	public boolean exists(Avventore avventore) {
-		return get(avventore.getCodCartaIdentità()) != null;
+		return avventori.contains(avventore);
 	}
 	
 	public boolean notExists(Avventore avventore) {
@@ -58,6 +58,25 @@ public class AvventoreDAO implements DAO<Avventore> {
 		preparedStatement.setString(3, element.getCognome());
 		preparedStatement.setString(4, element.getNumeroDiTelefono());
 		preparedStatement.execute();
+		avventori.add(element);
+	}
+	
+	public void insert(List<Avventore> elements) throws SQLException {
+		query = "INSERT INTO Avventore(codCartaIdentità, nome, cognome, n°telefono) VALUES ";
+		boolean thisIsTheFirstElement = true;
+		for(Avventore element : elements) {
+			if(notExists(element)) {
+				query = query + (thisIsTheFirstElement ? "" : ", ") + 
+						"('" + element.getCodCartaIdentità() + "'" +
+						", '" + element.getNome() + "'" +
+						", '" + element.getCognome() + "'" +
+						", '" + element.getNumeroDiTelefono() + "'" + ")";
+				thisIsTheFirstElement = false;
+				avventori.add(element);
+			}
+		}
+		System.out.println(query);
+		statement.execute(query);
 	}
 
 	@Override

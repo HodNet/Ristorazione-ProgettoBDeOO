@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -39,6 +40,7 @@ import GUI.Home;
 import GUI.InformazioniScorretteException;
 import GUI.NuovaTavolata;
 import GUI.RistoranteFrame;
+import GUI.SuccessMessage;
 import database.DBConnector;
 
 public class Controller {
@@ -261,7 +263,7 @@ public class Controller {
 				dayHistogramFrequencies.add(table.getInt("avventori_tot"));
 			}
 		} catch(SQLException exc) {
-			ErrorMessage error = new ErrorMessage(home, "Errore nel caricare l'istogramma degli avventori giornalieri");
+			ErrorMessage error = new ErrorMessage(ristoranteFrame, "Errore nel caricare l'istogramma degli avventori giornalieri");
 			error.setVisible(true);
 			exc.printStackTrace();
 		}
@@ -274,7 +276,7 @@ public class Controller {
 				monthHistogramFrequencies.add(table.getInt("avventori_tot"));
 			}
 		} catch(SQLException exc) {
-			ErrorMessage error = new ErrorMessage(home, "Errore nel caricare l'istogramma degli avventori mensili");
+			ErrorMessage error = new ErrorMessage(ristoranteFrame, "Errore nel caricare l'istogramma degli avventori mensili");
 			error.setVisible(true);
 			exc.printStackTrace();
 		}
@@ -287,7 +289,7 @@ public class Controller {
 				yearHistogramFrequencies.add(table.getInt("avventori_tot"));
 			}
 		} catch(SQLException exc) {
-			ErrorMessage error = new ErrorMessage(home, "Errore nel caricare l'istogramma degli avventori annuali");
+			ErrorMessage error = new ErrorMessage(ristoranteFrame, "Errore nel caricare l'istogramma degli avventori annuali");
 			error.setVisible(true);
 			exc.printStackTrace();
 		}
@@ -299,13 +301,20 @@ public class Controller {
 	 */
 	public static String getInfoOf(Clientela cliente) {
 		Avventore avventore = avventoreDAO.get(cliente.getCodCartaIdentità());
+		if(avventore == null)
+			return "";
 		String generalità = avventore.getNome() + " " + avventore.getCognome() + ", " + avventore.getNumeroDiTelefono() + "\n";
 		String codCartaIdentità = "codice della Carta d'Identità: " + avventore.getCodCartaIdentità();
 		return generalità + codCartaIdentità;
 	}
 	
 	public static String getInfoOfCameriereOf(String data, String tavoloID) {
-		Cameriere cameriere = cameriereDAO.get(servizioDAO.getCameriereOf(data, tavoloID).getCodCameriere());
+		Servizio servizio = servizioDAO.get(data, tavoloID);
+		if(servizio == null)
+			return "";
+		Cameriere cameriere = cameriereDAO.get(servizio.getCodCameriere());
+		if(cameriere == null)
+			return "";
 		return "Servito dal cameriere " + cameriere.getNome() + " " + cameriere.getCognome() + ", " + cameriere.getNumeroDiTelefono() + "\n" +
 			   "nato il " + cameriere.getDataDiNascita() + (cameriere.getCittà()==null ? "" : " a " + cameriere.getCittà()) + "\n" +
 			   "codice della Carta d'Identità: " + cameriere.getCodCartaIdentità();
@@ -341,7 +350,7 @@ public class Controller {
 				tavoliSelected.add(tavolo.getID());
 			}
 		} catch (SQLException exc) {
-			ErrorMessage error = new ErrorMessage(DBlogin, "Errore nell'ottenere i tavoli del ristorante dal Database");
+			ErrorMessage error = new ErrorMessage(nuovaTavolata, "Errore nell'ottenere i tavoli del ristorante dal Database");
 			error.setVisible(true);
 			exc.printStackTrace();
 		}
@@ -357,6 +366,24 @@ public class Controller {
 	}
 	
 	public static void inserisciTavolata(String tavoloID, String data, Cameriere cameriere, LinkedList<Avventore> avventori) throws InformazioniScorretteException {
+		checkInformazioni(tavoloID, data, cameriere, avventori);
+		try {
+			avventoreDAO.insert(avventori);
+			clientelaDAO.insertTavolata(avventori, data, tavoloID);
+			servizioDAO.insert(new Servizio(cameriere.getCodCartaIdentità(), data, tavoloID));
+			
+			backToClientelaFrameAndRefresh();
+			SuccessMessage success = new SuccessMessage(clientelaFrame, "Tavolata inserita con successo all'interno del database");
+			success.setVisible(true);
+			
+		} catch (SQLException exc) {
+			ErrorMessage error = new ErrorMessage(nuovaTavolata, "Dati inseriti scorretti. " + exc.getMessage());
+			error.setVisible(true);
+			exc.printStackTrace();
+		}
+	}
+	
+	private static void checkInformazioni(String tavoloID, String data, Cameriere cameriere, LinkedList<Avventore> avventori) throws InformazioniScorretteException {
 		if(tavoloID==null || tavoloID.isBlank())
 			throw new InformazioniScorretteException("Selezionare un tavolo");
 		if(data==null || data.isBlank())
@@ -367,25 +394,18 @@ public class Controller {
 			throw new InformazioniScorretteException("Inserire almeno un avventore");
 		
 		try {
-//			if(cameriereDAO.notExists(cameriere)) //OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-//				cameriereDAO.insert(cameriere);
-			for(Avventore avventore : avventori) {
-				if(avventoreDAO.notExists(avventore)) //NON MI PIACE, RIVEDILO.
-					avventoreDAO.insert(avventore);
-				clientelaDAO.insert(new Clientela(avventore.getCodCartaIdentità(), data, tavoloID));
-			}
-			servizioDAO.insert(new Servizio(cameriere.getCodCartaIdentità(), data, tavoloID));
-
-			ClientelaFrame tmp = new ClientelaFrame(ristoranteFrame.getRistoranteScelto());
-			tmp.setVisible(true);
-			clientelaFrame.setVisible(false);
-			clientelaFrame = tmp;
-			nuovaTavolata.setVisible(false);
-			nuovaTavolata = null;
-		} catch (SQLException exc) {
-			ErrorMessage error = new ErrorMessage(home, "Dati inseriti scorretti: " + exc.getMessage());
-			error.setVisible(true);
-			exc.printStackTrace();
+			Date.valueOf(data);
+		} catch(IllegalArgumentException exc) {
+			throw new InformazioniScorretteException("Data inserita scorretta");
 		}
+	}
+	
+	private static void backToClientelaFrameAndRefresh() {
+		ClientelaFrame tmp = new ClientelaFrame(ristoranteFrame.getRistoranteScelto());
+		tmp.setVisible(true);
+		clientelaFrame.setVisible(false);
+		clientelaFrame = tmp;
+		nuovaTavolata.setVisible(false);
+		nuovaTavolata = null;
 	}
 }
