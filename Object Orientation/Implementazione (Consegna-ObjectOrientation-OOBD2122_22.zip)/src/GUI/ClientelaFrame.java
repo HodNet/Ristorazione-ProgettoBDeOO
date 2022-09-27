@@ -235,4 +235,9 @@ public class ClientelaFrame extends JFrame {
 	public void setButtonsEnabled(boolean b) {
 		addButton.setEnabled(b);
 	}
+	
+	public void refresh() {
+		westPanel.setViewportView(FillWestPanel());
+		centerPanel.setViewportView(FillCenterPanel(null));
+	}
 }

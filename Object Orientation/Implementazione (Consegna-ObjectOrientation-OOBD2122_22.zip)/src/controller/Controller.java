@@ -258,7 +258,6 @@ public class Controller {
 			Statement statement = DBConnector.getConnection().createStatement();
 			ResultSet table = statement.executeQuery(dayQuery);
 			while(table.next()) {
-				//dayHistogramBins.add(table.getString("dataDiArrivo"));
 				dayHistogramBins.add(table.getString("giorno") + "/" + table.getString("mese") + "/" + table.getString("anno"));
 				dayHistogramFrequencies.add(table.getInt("avventori_tot"));
 			}
@@ -371,8 +370,9 @@ public class Controller {
 			avventoreDAO.insert(avventori);
 			clientelaDAO.insertTavolata(avventori, data, tavoloID);
 			servizioDAO.insert(new Servizio(cameriere.getCodCartaIdentità(), data, tavoloID));
-			
-			backToClientelaFrameAndRefresh();
+			backToClientelaFrame();
+			clientelaFrame.refresh();
+			ristoranteFrame.addTavolataToHistograms(data, avventori);
 			SuccessMessage success = new SuccessMessage(clientelaFrame, "Tavolata inserita con successo all'interno del database");
 			success.setVisible(true);
 			
@@ -398,14 +398,5 @@ public class Controller {
 		} catch(IllegalArgumentException exc) {
 			throw new InformazioniScorretteException("Data inserita scorretta");
 		}
-	}
-	
-	private static void backToClientelaFrameAndRefresh() {
-		ClientelaFrame tmp = new ClientelaFrame(ristoranteFrame.getRistoranteScelto());
-		tmp.setVisible(true);
-		clientelaFrame.setVisible(false);
-		clientelaFrame = tmp;
-		nuovaTavolata.setVisible(false);
-		nuovaTavolata = null;
 	}
 }

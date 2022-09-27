@@ -249,7 +249,8 @@ public class HistogramPanel extends JPanel {
 			}
 		}
 		bins.get(dataList.indexOf(data)).frequency++;
-		update();
+		//update();
+		Resize(width, height);
 		createHistogram();
 	}
 	

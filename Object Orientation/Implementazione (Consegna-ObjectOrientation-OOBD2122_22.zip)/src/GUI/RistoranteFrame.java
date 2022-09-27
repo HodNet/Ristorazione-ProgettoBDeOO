@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.LinkedList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -25,14 +28,16 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
+import DAO.Avventore;
+import DAO.Cameriere;
 import DAO.Ristorante;
 import controller.Controller;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class RistoranteFrame extends JFrame {
 
-	private static final int width = 700;//Controller.screenWidth;
-	private static final int height = 425;//Controller.screenHeight-100;
+	private static final int width = 700;
+	private static final int height = 425;
 	private static final int x = Controller.screenWidth/2 - width/2;
 	private static final int y = Controller.screenHeight/2 - height/2;
 	
@@ -44,9 +49,11 @@ public class RistoranteFrame extends JFrame {
 	private JPanel westPanel;
 	private JTabbedPane centerPanel;
 	
-	private JLabel histogram;
 	private JButton indietro;
 	private JButton cronologiaClienti;
+	private HistogramPanel dayHistogram;
+	private HistogramPanel monthHistogram;
+	private HistogramPanel yearHistogram;
 
 	public RistoranteFrame(Ristorante ristoranteScelto) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,15 +125,15 @@ public class RistoranteFrame extends JFrame {
 		
 		Controller.calculateHistograms(ristorante);
 		
-		HistogramPanel dayHistogram = new HistogramPanel(Controller.dayHistogramBins, Controller.dayHistogramFrequencies);
+		dayHistogram = new HistogramPanel(Controller.dayHistogramBins, Controller.dayHistogramFrequencies);
 		dayHistogram.setBackground(Color.WHITE);
 		centerPanel.addTab("Clienti giornalieri", null, dayHistogram, null);
 		
-		HistogramPanel monthHistogram = new HistogramPanel(Controller.monthHistogramBins, Controller.monthHistogramFrequencies);
+		monthHistogram = new HistogramPanel(Controller.monthHistogramBins, Controller.monthHistogramFrequencies);
 		monthHistogram.setBackground(Color.WHITE);
 		centerPanel.addTab("Clienti mensili", null, monthHistogram, null);
 		
-		HistogramPanel yearHistogram = new HistogramPanel(Controller.yearHistogramBins, Controller.yearHistogramFrequencies);
+		yearHistogram = new HistogramPanel(Controller.yearHistogramBins, Controller.yearHistogramFrequencies);
 		yearHistogram.setBackground(Color.WHITE);
 		centerPanel.addTab("Clienti annuali", null, yearHistogram, null);
 	}
@@ -162,4 +169,31 @@ public class RistoranteFrame extends JFrame {
 	public Ristorante getRistoranteScelto() {
 		return ristorante;
 	}
+	
+	public void addTavolataToHistograms(String data, LinkedList<Avventore> avventori) {
+		Date date = Date.valueOf(data);
+		for(Avventore avventore : avventori) {
+			dayHistogram.add(getDayOf(date));
+			monthHistogram.add(getMonthOf(date));
+			yearHistogram.add(getYearOf(date));
+		}
+	}
+	
+	private String getDayOf(Date date) {
+		String year = String.valueOf(date.getYear()+1900);
+		String month = String.valueOf(date.getMonth()+1);
+		String day = String.valueOf(date.getDate());
+		return day + "/" + month + "/" + year;
+	}
+	
+	private String getMonthOf(Date date) {
+		String year = String.valueOf(date.getYear()+1900);
+		String month = String.valueOf(date.getMonth()+1);
+		return month + "/" + year;
+	}
+	
+	private String getYearOf(Date date) {
+		return String.valueOf(date.getYear()+1900);
+	}
+	
 }
