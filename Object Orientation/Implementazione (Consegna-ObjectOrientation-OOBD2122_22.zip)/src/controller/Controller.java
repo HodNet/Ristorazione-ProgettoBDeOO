@@ -158,7 +158,7 @@ public class Controller {
 	public static void checkDataBase() {
 		try {
 			DBConnector.getIstance(DBlogin.getUrl(), DBlogin.getUsername(), DBlogin.getPassword());
-			if(DBlogin.ricordaPasswordIsSelected())
+			if(DBlogin.isRicordaPasswordSelected())
 				saveAllIntoFile();
 			try {
 				ristoranteDAO = new RistoranteDAO(DBConnector.getConnection());

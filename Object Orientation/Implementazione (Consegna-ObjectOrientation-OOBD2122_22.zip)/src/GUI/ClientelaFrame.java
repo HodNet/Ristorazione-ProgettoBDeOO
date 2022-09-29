@@ -2,8 +2,10 @@
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -11,13 +13,14 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -25,11 +28,6 @@ import javax.swing.border.LineBorder;
 import DAO.Clientela;
 import DAO.Ristorante;
 import controller.Controller;
-import java.awt.Dialog.ModalExclusionType;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ClientelaFrame extends JFrame {
 
@@ -186,7 +184,6 @@ public class ClientelaFrame extends JFrame {
 				infoCameriere.setBounds(0, scrollHeight, 5000, 55);
 				infoCameriere.setText(Controller.getInfoOfCameriereOf(data, tavolo));
 				infoCameriere.setFont(new Font("Tahoma", Font.PLAIN, 13));
-				//infoCameriere.setBorder(new LineBorder(new Color(0, 0, 0)));
 				infoCameriere.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 				infoCameriere.setOpaque(true);
 				infoCameriere.setBackground(new Color(230, 230, 230));
@@ -205,8 +202,6 @@ public class ClientelaFrame extends JFrame {
 					contentCenterPane.add(infoCliente);
 					scrollHeight+=35;
 				}
-				
-				//scrollHeight+=20;
 			}
 		} catch (SQLException exc) {
 			ErrorMessage error = new ErrorMessage(this, "Errore nell'estrarre la lista degli avventori dal database");

@@ -2,24 +2,16 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.sql.Date;
-import java.util.Calendar;
 import java.util.LinkedList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout.Group;
-import javax.swing.GroupLayout.ParallelGroup;
-import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,10 +21,8 @@ import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 import DAO.Avventore;
-import DAO.Cameriere;
 import DAO.Ristorante;
 import controller.Controller;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class RistoranteFrame extends JFrame {
 
@@ -71,8 +61,6 @@ public class RistoranteFrame extends JFrame {
 		WestPanel();
 		CenterPanel();
 		SouthPanel();
-		
-//		createHistogram(10, histogramRect.getY(), 300, null, null, 0);
 	}
 	
 	private void NorthPanel() {

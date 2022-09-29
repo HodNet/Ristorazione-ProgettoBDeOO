@@ -17,8 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import controller.Controller;
-
 public class HistogramPanel extends JPanel {
 	
 	private class Bin {
@@ -401,7 +399,7 @@ public class HistogramPanel extends JPanel {
 	}
 	
 	private void scaleImage(JLabel label, String file_name) {
-		ImageIcon icon = new ImageIcon(Controller.class.getResource("/images/" + file_name));
+		ImageIcon icon = new ImageIcon(HistogramPanel.class.getResource("/images/" + file_name));
 		Image img = icon.getImage();
 		Image scaledImg = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon = new ImageIcon(scaledImg);

@@ -1,0 +1,117 @@
+[
+  {
+    "name": "DBLogin",
+    "superclasses": "JFrame",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Riceve dall'utente URL, nome e password del database",
+      "Può aprire una finestra di errore",
+      "Può aprire la pagina home dell'applicativo",
+      "Connette tutte le classi DAO al database",
+      "Può ricordare la password"
+    ],
+    "collaborators": [
+      "DBConnector",
+      "RistoranteDAO",
+      "SalaDAO\t\t\t\t",
+      "AvventoreDAO",
+      "CameriereDAO",
+      "ClientelaDAO",
+      "ServizioDAO",
+      "TavoloDAO",
+      "ErrorMessage",
+      "Home"
+    ]
+  },
+  {
+    "name": "Home",
+    "superclasses": "JFrame",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Mostra l'elenco di ristoranti del database",
+      "Permette di selezionare uno dei ristoranti",
+      "Apre la finestra del ristorante scelto"
+    ],
+    "collaborators": [
+      "RistoranteFrame",
+      "Ristorante",
+      "RistoranteDAO"
+    ]
+  },
+  {
+    "name": "RistoranteFrame",
+    "superclasses": "JFrame",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Può tornare indietro alla finestra Home",
+      "Mostra il ristorante",
+      "Mostra le Sale del ristorante",
+      "Mostra i Camerieri del ristorante",
+      "Sa la query per ottenere gli avventori giornalieri",
+      "Sa la query per ottenere gli avventori mensili",
+      "Sa la query per ottenere gli avventori annuali",
+      "Può aprire una finestra di errore",
+      "Mostra l'istogramma degli avventori giornalieri",
+      "Mostra l'istogramma degli avventori mensili",
+      "Mostra l'istogramma degli avventori annuali",
+      "Può aprire la finestra della lista di Tavolate"
+    ],
+    "collaborators": [
+      "Avventore",
+      "Ristorante",
+      "SalaDAO",
+      "Sala",
+      "CameriereDAO",
+      "Cameriere",
+      "DBConnector",
+      "ErrorMessage",
+      "HistogramPanel",
+      "ClientelaFrame"
+    ]
+  },
+  {
+    "name": "HistogramPanel",
+    "superclasses": "JPanel",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Mostra un istogramma",
+      "Può aggiungere un dato all'istogramma"
+    ],
+    "collaborators": [
+      ""
+    ]
+  },
+  {
+    "name": "ClientelaFrame",
+    "superclasses": "JFrame",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Può tornare indietro alla finestra RistoranteFrame",
+      "Può aprire la finestra di inserimento di una nuova tavolata",
+      "Mostra un elenco selezionabile di tutte le date in cui ci sono una o più tavolate",
+      "Mostra l'elenco di tavolate corrispondenti ad una certa data scelta dall'utente",
+      "Per ogni Tavolata mostra avventori e cameriere che l'ha servita",
+      "Può aprire una finestra di errore",
+      "Può aggiornarsi nel caso di modifiche nel database"
+    ],
+    "collaborators": [
+      "Clientela",
+      "Ristorante",
+      "NuovaTavolata",
+      "ClientelaDAO",
+      "ErrorMessage",
+      "Servizio",
+      "ServizioDAO",
+      "Cameriere",
+      "CameriereDAO",
+      "Avventore",
+      "AvventoreDAO",
+      "ListaAvventoriPanel"
+    ]
+  }
+]

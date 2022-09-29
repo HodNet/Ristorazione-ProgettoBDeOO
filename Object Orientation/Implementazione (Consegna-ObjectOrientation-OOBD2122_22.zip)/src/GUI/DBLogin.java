@@ -1,18 +1,10 @@
 package GUI;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.sql.SQLException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -24,9 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.k33ptoo.components.KGradientPanel;
 
-import DAO.RistoranteDAO;
 import controller.Controller;
-import database.DBConnector;
 
 public class DBLogin extends JFrame {
 
@@ -138,7 +128,7 @@ public class DBLogin extends JFrame {
 		return String.valueOf(password.getPassword());
 	}
 
-	public boolean ricordaPasswordIsSelected() {
+	public boolean isRicordaPasswordSelected() {
 		return ricordaPassword.isSelected();
 	}
 }
