@@ -56,8 +56,12 @@ public class ServizioDAO implements DAO<Servizio> {
 
 	@Override
 	public void delete(Servizio element) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		query = "DELETE FROM Servizio WHERE dataDiArrivo=? AND codT=?";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setDate(1, Date.valueOf(element.getDataDiArrivo()));
+		preparedStatement.setInt(2, Integer.valueOf(element.getTavoloID()));
+		preparedStatement.executeUpdate();
+		servizioList.remove(element);
 	}
 
 }

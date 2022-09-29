@@ -86,8 +86,11 @@ public class CameriereDAO implements DAO<Cameriere> {
 
 	@Override
 	public void delete(Cameriere element) throws SQLException {
-		// TODO Auto-generated method stub
-
+		query = "DELETE FROM Cameriere WHERE codCartaIdentità = ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, element.getCodCartaIdentità());
+		preparedStatement.executeUpdate();
+		camerieri.remove(element);
 	}
 
 }

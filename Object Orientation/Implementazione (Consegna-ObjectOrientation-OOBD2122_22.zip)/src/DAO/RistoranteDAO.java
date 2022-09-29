@@ -57,9 +57,13 @@ public class RistoranteDAO implements DAO<Ristorante> {
 	}
  
 	@Override
-    public void delete(Ristorante ristorante) {
-    	//TODO
-   }
+    public void delete(Ristorante element) throws SQLException {
+		query = "DELETE FROM Ristorante WHERE codR = ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setInt(1, Integer.valueOf(element.getID()));
+		preparedStatement.executeUpdate();
+		ristoranti.remove(element);
+	}
 	
 	public int getNumeroRistoranti() {
 		return ristoranti.size();

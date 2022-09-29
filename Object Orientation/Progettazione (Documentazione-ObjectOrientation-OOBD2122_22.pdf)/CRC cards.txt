@@ -57,7 +57,7 @@
       "Mostra l'istogramma degli avventori giornalieri",
       "Mostra l'istogramma degli avventori mensili",
       "Mostra l'istogramma degli avventori annuali",
-      "Può aprire la finestra della lista di Tavolate"
+      "Può aprire la finestra ClientelaFrame"
     ],
     "collaborators": [
       "Avventore",
@@ -93,9 +93,10 @@
     "responsibilities": [
       "Può tornare indietro alla finestra RistoranteFrame",
       "Può aprire la finestra di inserimento di una nuova tavolata",
-      "Mostra un elenco selezionabile di tutte le date in cui ci sono una o più tavolate",
+      "Sa il ristorante scelto",
+      "Mostra un elenco selezionabile di tutte le date in cui il ristorante ha avuto clienti",
       "Mostra l'elenco di tavolate corrispondenti ad una certa data scelta dall'utente",
-      "Per ogni Tavolata mostra avventori e cameriere che l'ha servita",
+      "Per ogni Tavolata mostra cameriere che l'ha servita e avventori",
       "Può aprire una finestra di errore",
       "Può aggiornarsi nel caso di modifiche nel database"
     ],
@@ -110,8 +111,96 @@
       "Cameriere",
       "CameriereDAO",
       "Avventore",
+      "AvventoreDAO"
+    ]
+  },
+  {
+    "name": "NuovaTavolata",
+    "superclasses": "JFrame",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Può tornare indietro alla finestra ClientelaFrame",
+      "Sa il ristorante scelto",
+      "Può inserire una tavolata nel database",
+      "Può aprire una finestra di errore",
+      "Può aprire una finestra di inserimento avvenuto con successo",
+      "Aggiorna ClientelaFrame con i nuovi avventori",
+      "Aggiorna RistoranteFrame con i nuovi avventori"
+    ],
+    "collaborators": [
+      "ClientelaFrame",
+      "Ristorante",
+      "ListaAvventoriPanel",
+      "Tavolo",
+      "TavoloDAO",
+      "Cameriere",
+      "CameriereDAO",
+      "Avventore",
       "AvventoreDAO",
-      "ListaAvventoriPanel"
+      "Servizio",
+      "ServizioDAO",
+      "InformazioniScorretteException",
+      "ErrorMessage",
+      "SuccessMessage",
+      "RistoranteFrame"
+    ]
+  },
+  {
+    "name": "ListaAvventoriPanel",
+    "superclasses": "JPanel",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Mostra una lista di avventori",
+      "Può aggiungere un avventore dalla lista",
+      "Può eliminare un avventore dalla lista",
+      "Può svuotare tutta la lista",
+      "Sa il numero di avventori presenti nella lista",
+      "Sa gli avventori della lista"
+    ],
+    "collaborators": [
+      "NuovaTavolata",
+      "Avventore",
+      "InformazioniScorretteException"
+    ]
+  },
+  {
+    "name": "ErrorMessage",
+    "superclasses": "JDialog",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Mostra un messaggio di errore",
+      "Può tornare indietro alla finestra da cui si è generato l'errore"
+    ],
+    "collaborators": [
+      ""
+    ]
+  },
+  {
+    "name": "SuccessMessage",
+    "superclasses": "JDialog",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Mostra un messaggio di successo di un'operazione",
+      "Può tornare indietro alla finestra da cui proviene l'operazione"
+    ],
+    "collaborators": [
+      ""
+    ]
+  },
+  {
+    "name": "InformazioniScorretteException",
+    "superclasses": "Exception",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Sa il messaggio di errore"
+    ],
+    "collaborators": [
+      ""
     ]
   }
 ]

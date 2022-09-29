@@ -64,9 +64,12 @@ public class TavoloDAO implements DAO<Tavolo> {
 	}
 
 	@Override
-	public void delete(Tavolo element) {
-		// TODO Auto-generated method stub
-
+	public void delete(Tavolo element) throws SQLException {
+		query = "DELETE FROM Tavolo WHERE codT = ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setInt(1, Integer.valueOf(element.getID()));
+		preparedStatement.executeUpdate();
+		tavoli.remove(element);
 	}
 
 }

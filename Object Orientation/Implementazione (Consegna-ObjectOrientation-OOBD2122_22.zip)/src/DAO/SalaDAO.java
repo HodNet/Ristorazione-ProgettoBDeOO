@@ -60,9 +60,12 @@ public class SalaDAO implements DAO<Sala> {
 	}
 
 	@Override
-	public void delete(Sala element) {
-		// TODO Auto-generated method stub
-		
+	public void delete(Sala element) throws SQLException {
+		query = "DELETE FROM Sala WHERE codS = ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setInt(1, Integer.valueOf(element.getID()));
+		preparedStatement.executeUpdate();
+		sale.remove(element);
 	}
 	
 }

@@ -45,8 +45,7 @@ public class Home extends JFrame {
 		for (Ristorante ristorante : Controller.ristoranteDAO.getAll()) {
 			JLabel fotoRistorante = new JLabel("");
 			fotoRistorante.setBounds(10, 10+scrollHeight, 120, 100);
-			Controller.scaleImage(fotoRistorante, ristorante.getFoto()); //QUESTO VA SPIEGATO NELLA DOCUMENTAZIONE
-			//OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+			Controller.scaleImage(fotoRistorante, ristorante.getFoto());
 			panel.add(fotoRistorante);
 			
 			JLabel nomeRistorante = new JLabel(ristorante.getNome());

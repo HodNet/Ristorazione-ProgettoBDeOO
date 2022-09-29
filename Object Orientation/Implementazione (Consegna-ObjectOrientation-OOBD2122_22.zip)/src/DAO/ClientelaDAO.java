@@ -104,7 +104,7 @@ public class ClientelaDAO implements DAO<Clientela> {
 		query = "INSERT INTO Clientela(codCartaIdentità, dataDiArrivo, codT) VALUES (?, ?, ?)";
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setString(1, element.getCodCartaIdentità());
-		preparedStatement.setDate(2, Date.valueOf(element.getDataDiArrivo())); //ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+		preparedStatement.setDate(2, Date.valueOf(element.getDataDiArrivo()));
 		preparedStatement.setInt(3, Integer.valueOf(element.getTavoloID()));
 		preparedStatement.execute();
 		clientelaList.add(element);
@@ -126,8 +126,13 @@ public class ClientelaDAO implements DAO<Clientela> {
 
 	@Override
 	public void delete(Clientela element) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		query = "DELETE FROM Clientela WHERE codCartaIdentità=? AND dataDiArrivo=? AND codT=?";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, element.getCodCartaIdentità());
+		preparedStatement.setDate(2, Date.valueOf(element.getDataDiArrivo()));
+		preparedStatement.setInt(3, Integer.valueOf(element.getTavoloID()));
+		preparedStatement.executeUpdate();
+		clientelaList.remove(element);
 	}
 
 }
