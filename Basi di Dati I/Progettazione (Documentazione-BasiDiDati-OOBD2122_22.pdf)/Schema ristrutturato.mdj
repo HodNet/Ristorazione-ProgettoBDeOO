@@ -2925,7 +2925,7 @@
 								"$ref": "AAAAAAF+fGcyvRcHh5w="
 							},
 							"font": "Arial;13;0",
-							"left": 728,
+							"left": 608,
 							"top": 792,
 							"width": 129,
 							"height": 81,
@@ -2945,7 +2945,7 @@
 								"$ref": "AAAAAAF+fGgAXxfCHN4="
 							},
 							"lineStyle": 1,
-							"points": "765:791;734:744"
+							"points": "673:791;673:744"
 						},
 						{
 							"_type": "UMLConstraintView",
@@ -2957,27 +2957,11 @@
 								"$ref": "AAAAAAF+fGmEzRxyq6U="
 							},
 							"font": "Arial;13;0",
-							"left": 496,
-							"top": 792,
+							"left": 760,
+							"top": 768,
 							"width": 137,
-							"height": 79,
-							"text": "{Vincolo di dominio:\n\nnumero di avventori <= n.max avventori}"
-						},
-						{
-							"_type": "UMLConstraintLinkView",
-							"_id": "AAAAAAF+fGreSx/uvtA=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Arial;13;0",
-							"head": {
-								"$ref": "AAAAAAF9r5jStY/vW8M="
-							},
-							"tail": {
-								"$ref": "AAAAAAF+fGreSh/tEbM="
-							},
-							"lineStyle": 1,
-							"points": "589:791;619:744"
+							"height": 94,
+							"text": "{Vincolo di dominio:\n\nnumero di avventori della Tavolata <= n.max avventori del Tavolo corrispondente}"
 						},
 						{
 							"_type": "UMLAssociationView",
@@ -3694,6 +3678,51 @@
 							},
 							"lineStyle": 1,
 							"points": "641:408;675:408"
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAGEFDv3vKPiNtc=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 400,
+							"top": 496,
+							"width": 173.892578125,
+							"height": 107,
+							"text": "Vincolo di unicità: \nUno stesso avventore non può trovarsi in due posti contemporaneamente:\nUNIQUE(codCartaIdentità, dataDiArrivo)"
+						},
+						{
+							"_type": "UMLNoteLinkView",
+							"_id": "AAAAAAGEFD2dvqYNnlI=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAGEFDv3vKPiNtc="
+							},
+							"tail": {
+								"$ref": "AAAAAAF9r8QjhpXxbac="
+							},
+							"lineStyle": 1,
+							"points": "487:657;487:603"
+						},
+						{
+							"_type": "UMLNoteLinkView",
+							"_id": "AAAAAAGENHaF+Cu+Mdg=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAF9r8EAQpQzOYQ="
+							},
+							"tail": {
+								"$ref": "AAAAAAF+fGreSh/tEbM="
+							},
+							"lineStyle": 1,
+							"points": "829:767;831:655"
 						}
 					]
 				},
@@ -4185,7 +4214,7 @@
 								"$ref": "AAAAAAF9r5jStI/tHh4="
 							},
 							"name": "vincolo numero avventori",
-							"specification": "Vincolo di dominio:\n\nnumero di avventori <= n.max avventori"
+							"specification": "Vincolo di dominio:\n\nnumero di avventori della Tavolata <= n.max avventori del Tavolo corrispondente"
 						}
 					],
 					"attributes": [
