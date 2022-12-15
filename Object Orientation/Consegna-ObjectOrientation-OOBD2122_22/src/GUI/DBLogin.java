@@ -31,8 +31,7 @@ public class DBLogin extends JFrame {
 	private JPasswordField password;
 
 	private JCheckBox ricordaPassword;
-	//public static final String DBinfoFilePath = System.getProperty("user.dir") + File.separator + "src\\saves\\DBinfo.txt";
-	public static final String DBinfoFileName = "DBinfo.txt";
+	public static final String DBinfoFilePath = System.getProperty("user.dir") + File.separator + "src\\saves\\DBinfo.txt";
 	
 	public DBLogin() {
 		setTitle("Tracciamento Covid-19 per ristoranti");

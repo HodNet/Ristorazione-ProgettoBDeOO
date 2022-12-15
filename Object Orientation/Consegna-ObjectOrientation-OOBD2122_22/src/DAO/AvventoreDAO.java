@@ -75,14 +75,16 @@ public class AvventoreDAO implements DAO<Avventore> {
 				avventori.add(element);
 			}
 		}
-		System.out.println(query);
 		statement.execute(query);
 	}
 
 	@Override
 	public void delete(Avventore element) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		query = "DELETE FROM Avventore WHERE codCartaIdentità = ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, element.getCodCartaIdentità());
+		preparedStatement.executeUpdate();
+		avventori.remove(element);
 	}
 
 }

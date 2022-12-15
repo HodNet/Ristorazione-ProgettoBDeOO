@@ -3,16 +3,9 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.URISyntaxException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -118,10 +111,8 @@ public class Controller {
 	 * DBLogin functions:
 	 * 
 	 */
-	public static void saveAllIntoFile() throws IOException, URISyntaxException {
-		File file = new File( Controller.class.getResource("/saves/" + DBLogin.DBinfoFileName).toURI() );
-		OutputStream output = new FileOutputStream(file);
-		BufferedWriter DBinfo = new BufferedWriter( new OutputStreamWriter(output) );
+	public static void saveAllIntoFile() throws IOException {
+		BufferedWriter DBinfo = new BufferedWriter( new FileWriter(DBLogin.DBinfoFilePath) );
 		DBinfo.write(DBlogin.getUrl() + "\n");
 		DBinfo.write(DBlogin.getUsername() + "\n");
 		DBinfo.write(DBlogin.getPassword() + "\n");
@@ -130,8 +121,7 @@ public class Controller {
 	
 	public static String getUrlFromFile() {
 		try {
-			InputStream input = Controller.class.getResourceAsStream("/saves/" + DBLogin.DBinfoFileName);
-			BufferedReader DBinfo = new BufferedReader( new InputStreamReader(input) );
+			BufferedReader DBinfo = new BufferedReader( new FileReader(DBLogin.DBinfoFilePath) );
 			String ret = DBinfo.readLine();
 			DBinfo.close();
 			return ret;
@@ -142,8 +132,7 @@ public class Controller {
 	
 	public static String getUsernameFromFile() {
 		try {
-			InputStream input = Controller.class.getResourceAsStream("/saves/" + DBLogin.DBinfoFileName);
-			BufferedReader DBinfo = new BufferedReader( new InputStreamReader(input) );
+			BufferedReader DBinfo = new BufferedReader( new FileReader(DBLogin.DBinfoFilePath) );
 			String ret = DBinfo.readLine();
 			ret = DBinfo.readLine();
 			DBinfo.close();
@@ -155,8 +144,7 @@ public class Controller {
 	
 	public static String getPasswordFromFile() {
 		try {
-			InputStream input = Controller.class.getResourceAsStream("/saves/" + DBLogin.DBinfoFileName);
-			BufferedReader DBinfo = new BufferedReader( new InputStreamReader(input) );
+			BufferedReader DBinfo = new BufferedReader( new FileReader(DBLogin.DBinfoFilePath) );
 			String ret = DBinfo.readLine();
 			ret = DBinfo.readLine();
 			ret = DBinfo.readLine();
@@ -200,13 +188,6 @@ public class Controller {
 			ErrorMessage error = new ErrorMessage(DBlogin, "Error in saving the password");
 			error.setVisible(true);
 			exc.printStackTrace();
-		} catch(URISyntaxException exc) {
-			ErrorMessage error = new ErrorMessage(DBlogin, "Error in saving the password");
-			error.setVisible(true);
-			exc.printStackTrace();
-		} catch(Exception exc) {
-			ErrorMessage error = new ErrorMessage(DBlogin, exc.getMessage());
-			error.setVisible(true);
 		}
 	}
 	
